@@ -1,0 +1,31 @@
+Month,Region,Product,Sales_Rep,Units_Sold,Revenue_MYR
+Jun-25,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,18,73709
+Jun-25,Kuala Lumpur,Branding Package,Ahmad Riza,27,22279
+Jun-25,Penang,Digital Marketing Package,Siti Naziha,14,79102
+Jun-25,Penang,Web Development,Siti Naziha,13,45525
+Jun-25,Johor Bahru,Branding Package,Kevin Tan,20,61807
+Jun-25,Johor Bahru,Digital Marketing Package,Kevin Tan,9,22524
+Jul-25,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,33,83501
+Jul-25,Kuala Lumpur,Web Development,Ahmad Riza,34,97750
+Jul-25,Penang,Digital Marketing Package,Siti Naziha,30,102893
+Jul-25,Penang,Branding Package,Siti Naziha,25,87067
+Jul-25,Johor Bahru,Digital Marketing Package,Kevin Tan,33,89268
+Jul-25,Johor Bahru,Web Development,Kevin Tan,28,95331
+Aug-25,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,11,81584
+Aug-25,Kuala Lumpur,Branding Package,Ahmad Riza,30,87568
+Aug-25,Penang,Web Development,Siti Naziha,30,47938
+Aug-25,Penang,Digital Marketing Package,Siti Naziha,21,94050
+Aug-25,Johor Bahru,Branding Package,Kevin Tan,17,22775
+Aug-25,Johor Bahru,Digital Marketing Package,Kevin Tan,23,29301
+Sep-25,Kuala Lumpur,Web Development,Ahmad Riza,28,103695
+Sep-25,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,20,80306
+Sep-25,Penang,Digital Marketing Package,Siti Naziha,8,92512
+Sep-25,Penang,Branding Package,Siti Naziha,14,32573
+Sep-25,Johor Bahru,Digital Marketing Package,Kevin Tan,6,101479
+Sep-25,Johor Bahru,Web Development,Kevin Tan,7,90421
+Oct-25,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,30,46463
+Oct-25,Kuala Lumpur,Web Development,Ahmad Riza,13,53971
+Oct-25,Penang,Digital Marketing Package,Siti Naziha,23,61393
+Oct-25,Penang,Branding Package,Siti Naziha,10,76496
+Oct-25,Johor Bahru,Web Development,Kevin Tan,35,53361
+Oct-25,Johor Bahru,Digital Marketing Package,Kevin Tan,16,38584

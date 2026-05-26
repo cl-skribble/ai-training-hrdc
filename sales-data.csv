@@ -1,0 +1,31 @@
+Month,Region,Product,Sales_Rep,Units_Sold,Revenue_MYR
+Jan 2025,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,12,36000
+Jan 2025,Kuala Lumpur,Branding Package,Ahmad Riza,5,25000
+Jan 2025,Penang,Digital Marketing Package,Siti Naziha,9,27000
+Jan 2025,Penang,Web Development,Siti Naziha,3,21000
+Jan 2025,Johor Bahru,Branding Package,Kevin Tan,7,35000
+Jan 2025,Johor Bahru,Digital Marketing Package,Kevin Tan,4,12000
+Feb 2025,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,15,45000
+Feb 2025,Kuala Lumpur,Web Development,Ahmad Riza,4,28000
+Feb 2025,Penang,Digital Marketing Package,Siti Naziha,11,33000
+Feb 2025,Penang,Branding Package,Siti Naziha,6,30000
+Feb 2025,Johor Bahru,Digital Marketing Package,Kevin Tan,8,24000
+Feb 2025,Johor Bahru,Web Development,Kevin Tan,2,14000
+Mar 2025,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,18,54000
+Mar 2025,Kuala Lumpur,Branding Package,Ahmad Riza,7,35000
+Mar 2025,Penang,Web Development,Siti Naziha,5,35000
+Mar 2025,Penang,Digital Marketing Package,Siti Naziha,10,30000
+Mar 2025,Johor Bahru,Branding Package,Kevin Tan,9,45000
+Mar 2025,Johor Bahru,Digital Marketing Package,Kevin Tan,6,18000
+Apr 2025,Kuala Lumpur,Web Development,Ahmad Riza,6,42000
+Apr 2025,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,14,42000
+Apr 2025,Penang,Digital Marketing Package,Siti Naziha,8,24000
+Apr 2025,Penang,Branding Package,Siti Naziha,4,20000
+Apr 2025,Johor Bahru,Digital Marketing Package,Kevin Tan,11,33000
+Apr 2025,Johor Bahru,Web Development,Kevin Tan,3,21000
+May 2025,Kuala Lumpur,Digital Marketing Package,Ahmad Riza,20,60000
+May 2025,Kuala Lumpur,Web Development,Ahmad Riza,7,49000
+May 2025,Penang,Digital Marketing Package,Siti Naziha,13,39000
+May 2025,Penang,Branding Package,Siti Naziha,8,40000
+May 2025,Johor Bahru,Web Development,Kevin Tan,4,28000
+May 2025,Johor Bahru,Digital Marketing Package,Kevin Tan,9,27000

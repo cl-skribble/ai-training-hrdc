@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Non-Technical Executives — Skribble</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --magenta:#B71E6C;
+  --teal:#00BBBE;
+  --carbon:#242424;
+  --cream:#F7F3F0;
+  --white:#FFFFFF;
+  --soft-pink:#EDB9D4;
+  --yellow-lime:#FCFE94;
+  --olive:#BBBD54;
+  --purple:#BDA1D5;
+  --muted-teal:#93C9CA;
+}
+
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Montserrat',sans-serif;background:#000;}
+
+#deck{
+  width:100vw;height:100vh;
+  position:relative;overflow:hidden;
+}
+
+/* ─── SLIDES ─── */
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:60px 80px;
+  opacity:0;transform:translateX(60px);
+  transition:opacity .4s ease, transform .4s ease;
+  pointer-events:none;
+}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:all;}
+.slide.exit{opacity:0;transform:translateX(-60px);}
+
+/* Slide types */
+.cover{background:var(--carbon);}
+.section-slide{background:var(--carbon);}
+.content{background:var(--cream);}
+.content-white{background:var(--white);}
+.activity{background:var(--magenta);}
+.activity-teal{background:var(--teal);}
+.break-slide{background:var(--carbon);}
+.summary-slide{background:var(--carbon);}
+
+/* ─── PROGRESS BAR ─── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:var(--magenta);z-index:100;
+  transition:width .4s ease;
+}
+
+/* ─── COUNTER ─── */
+#counter{
+  position:fixed;top:20px;right:32px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;z-index:100;
+  color:rgba(255,255,255,.4);
+}
+
+/* ─── NAV BUTTONS ─── */
+#nav{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:16px;z-index:100;
+}
+.nav-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);
+  color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,border-color .2s;
+  backdrop-filter:blur(8px);
+}
+.nav-btn:hover{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.4);}
+#slide-dots{display:flex;gap:6px;align-items:center;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .3s;}
+.dot.on{width:20px;border-radius:3px;background:var(--magenta);}
+
+/* ─── MODULE TAG ─── */
+.module-tag{
+  display:inline-block;
+  font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;padding:4px 14px;border-radius:100px;
+  margin-bottom:20px;
+}
+.tag-teal{background:var(--teal);color:#fff;}
+.tag-magenta{background:var(--magenta);color:#fff;}
+.tag-purple{background:var(--purple);color:var(--carbon);}
+.tag-olive{background:var(--olive);color:var(--carbon);}
+.tag-white{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);}
+.tag-activity{background:rgba(255,255,255,.2);color:#fff;}
+
+/* ─── TYPOGRAPHY ─── */
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--magenta);margin-bottom:14px;}
+.eyebrow-light{color:rgba(255,255,255,.5);}
+.eyebrow-teal{color:var(--teal);}
+
+h1.display{font-size:72px;font-weight:900;line-height:1;letter-spacing:-.03em;color:#fff;}
+h1.title{font-size:52px;font-weight:900;line-height:1.05;letter-spacing:-.02em;color:var(--carbon);}
+h1.title-light{font-size:52px;font-weight:900;line-height:1.05;letter-spacing:-.02em;color:#fff;}
+h2.section-num{font-size:120px;font-weight:900;line-height:1;letter-spacing:-.04em;color:rgba(255,255,255,.06);}
+h2.section-title{font-size:42px;font-weight:900;line-height:1.1;color:#fff;}
+h3.slide-title{font-size:38px;font-weight:800;line-height:1.1;letter-spacing:-.01em;color:var(--carbon);}
+h3.slide-title-light{font-size:38px;font-weight:800;line-height:1.1;letter-spacing:-.01em;color:#fff;}
+p.lead{font-size:20px;font-weight:400;line-height:1.6;color:#555;}
+p.lead-light{font-size:20px;font-weight:400;line-height:1.6;color:rgba(255,255,255,.8);}
+p.body{font-size:16px;font-weight:400;line-height:1.7;color:#666;}
+
+/* ─── LAYOUT HELPERS ─── */
+.slide-body{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.slide-header{margin-bottom:40px;}
+.cols{display:grid;gap:32px;}
+.cols-2{grid-template-columns:1fr 1fr;}
+.cols-3{grid-template-columns:1fr 1fr 1fr;}
+
+/* ─── CARDS ─── */
+.card{
+  background:#fff;border-radius:20px;padding:32px;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+}
+.card-dark{background:rgba(255,255,255,.1);border-radius:20px;padding:28px;border:1.5px solid rgba(255,255,255,.15);}
+.card-teal{background:rgba(0,187,190,.15);border-radius:20px;padding:28px;border:1.5px solid var(--teal);}
+.card-mag{background:rgba(183,30,108,.08);border-radius:20px;padding:28px;border:1.5px solid rgba(183,30,108,.2);}
+
+.card-icon{font-size:32px;margin-bottom:16px;}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--magenta);margin-bottom:8px;}
+.card-label-light{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;}
+.card-label-teal{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.card-h{font-size:18px;font-weight:800;color:var(--carbon);margin-bottom:8px;}
+.card-h-light{font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;}
+.card-p{font-size:13px;font-weight:400;color:#777;line-height:1.6;}
+.card-p-light{font-size:13px;font-weight:400;color:rgba(255,255,255,.7);line-height:1.6;}
+
+/* ─── PROMPT BOXES ─── */
+.prompt-box{
+  background:#1a1a1a;border-radius:14px;padding:24px 28px;
+  border-left:3px solid var(--teal);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;line-height:1.7;color:#e0e0e0;
+  white-space:pre-wrap;word-break:break-word;
+  position:relative;
+}
+.prompt-box-light{
+  background:rgba(0,0,0,.3);border-radius:14px;padding:22px 26px;
+  border-left:3px solid rgba(255,255,255,.4);
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.9);
+  white-space:pre-wrap;word-break:break-word;
+}
+.prompt-label{
+  font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px;font-family:'Montserrat',sans-serif;
+}
+.prompt-label-light{
+  font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:10px;font-family:'Montserrat',sans-serif;
+}
+
+/* ─── STEP LIST ─── */
+.steps{display:flex;flex-direction:column;gap:16px;}
+.step{display:flex;align-items:flex-start;gap:16px;}
+.step-num{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--teal);color:#fff;
+  font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-num-light{background:rgba(255,255,255,.2);color:#fff;}
+.step-content{flex:1;padding-top:4px;}
+.step-title{font-size:15px;font-weight:700;color:var(--carbon);margin-bottom:3px;}
+.step-title-light{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+.step-desc{font-size:13px;color:#777;line-height:1.5;}
+.step-desc-light{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;}
+
+/* ─── COMPARISON ─── */
+.compare-col{
+  background:#fff;border-radius:20px;padding:36px 32px;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+}
+.compare-col.highlight{background:var(--carbon);}
+.compare-head{font-size:20px;font-weight:800;margin-bottom:6px;}
+.compare-sub{font-size:12px;font-weight:600;letter-spacing:.05em;margin-bottom:24px;}
+.compare-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.compare-list li{font-size:14px;line-height:1.5;padding-left:20px;position:relative;color:#555;}
+.compare-list li::before{content:'→';position:absolute;left:0;color:var(--teal);font-weight:700;}
+.compare-list.light li{color:rgba(255,255,255,.75);}
+.compare-list.light li::before{color:var(--magenta);}
+
+/* ─── TABLE ─── */
+.data-table{width:100%;border-collapse:collapse;font-size:13px;}
+.data-table th{
+  background:var(--carbon);color:#fff;
+  padding:10px 14px;text-align:left;
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+.data-table td{padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.07);color:#444;}
+.data-table tr:nth-child(even) td{background:rgba(0,0,0,.02);}
+.data-table tr:hover td{background:rgba(183,30,108,.04);}
+
+/* ─── BADGE PILL ─── */
+.pill{
+  display:inline-block;padding:3px 12px;border-radius:100px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+}
+.pill-teal{background:var(--teal);color:#fff;}
+.pill-mag{background:var(--magenta);color:#fff;}
+.pill-lime{background:var(--yellow-lime);color:var(--carbon);}
+
+/* ─── TIMER BADGE ─── */
+.timer{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);
+  border-radius:100px;padding:6px 16px;
+  font-size:13px;font-weight:700;color:#fff;
+}
+
+/* ─── AGENDA ITEM ─── */
+.agenda-item{
+  display:flex;align-items:center;gap:20px;
+  padding:16px 20px;border-radius:12px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+}
+.agenda-time{
+  font-size:11px;font-weight:700;color:rgba(255,255,255,.4);
+  letter-spacing:.05em;width:60px;flex-shrink:0;
+}
+.agenda-num{
+  width:28px;height:28px;border-radius:50%;
+  font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.agenda-text{font-size:14px;font-weight:600;color:#fff;}
+.agenda-desc{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px;}
+
+/* ─── FORMULA ─── */
+.formula{
+  display:flex;align-items:stretch;gap:0;border-radius:16px;overflow:hidden;
+}
+.formula-part{flex:1;padding:28px 24px;text-align:center;}
+.formula-part .f-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;opacity:.7;}
+.formula-part .f-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.formula-part .f-desc{font-size:12px;line-height:1.5;opacity:.8;}
+.formula-plus{
+  width:40px;background:rgba(0,0,0,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:900;color:rgba(255,255,255,.3);
+  flex-shrink:0;
+}
+
+/* ─── MCP DIAGRAM ─── */
+.mcp-row{display:flex;align-items:center;gap:12px;justify-content:center;}
+.mcp-box{
+  background:#fff;border-radius:14px;padding:16px 22px;text-align:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.08);min-width:120px;
+}
+.mcp-box .mcp-icon{font-size:26px;margin-bottom:6px;}
+.mcp-box .mcp-label{font-size:11px;font-weight:700;color:var(--carbon);}
+.mcp-arrow{font-size:22px;color:rgba(255,255,255,.3);}
+.mcp-connector{
+  background:var(--magenta);color:#fff;
+  border-radius:14px;padding:16px 22px;text-align:center;min-width:120px;
+}
+.mcp-connector .mcp-icon{font-size:26px;margin-bottom:6px;}
+.mcp-connector .mcp-label{font-size:11px;font-weight:700;}
+
+/* ─── LOGO ─── */
+.logo-sm svg{width:110px;height:auto;}
+
+/* ─── SKRIBBLE WORDMARK ─── */
+.wordmark-dark path.letter{fill:#fff;}
+.wordmark-dark path.dot{fill:var(--teal);}
+.wordmark-light path.letter{fill:var(--magenta);}
+.wordmark-light path.dot{fill:var(--teal);}
+
+/* Cover accent line */
+.accent-line{width:60px;height:4px;border-radius:2px;background:var(--teal);margin-bottom:32px;}
+
+/* ─── SCROLL WITHIN SLIDE ─── */
+.slide-scroll{overflow-y:auto;flex:1;padding-right:8px;}
+.slide-scroll::-webkit-scrollbar{width:4px;}
+.slide-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:3.03%"></div>
+<div id="counter">1 / 33</div>
+
+<div id="deck">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 1 — COVER -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide cover active" data-index="1">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:auto;">
+    <div class="logo-sm">
+      <svg viewBox="0 0 102 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="wordmark-dark" width="130" height="20">
+        <path class="dot" d="M2.15386 14.4778C3.34233 14.4778 4.30577 13.4671 4.30577 12.2203C4.30577 10.9736 3.34233 9.96289 2.15386 9.96289C0.965395 9.96289 0.00195312 10.9736 0.00195312 12.2203C0.00195312 13.4671 0.965395 14.4778 2.15386 14.4778Z"/>
+        <path class="letter" d="M18.8795 9.72083L17.865 10.9065V14.3823H13.4229V0.319458H17.865V5.42204L22.269 0.319458H27.1894L21.8273 6.5071L27.4575 14.3808H22.2309L18.8795 9.72083Z"/>
+        <path class="letter" d="M33.8125 10.8459H32.5876V14.3808H28.0693V0.319458H34.5222C38.256 0.319458 40.6308 2.36819 40.6308 5.62188C40.6308 7.65137 39.7122 9.17756 38.1036 10.0406L40.9187 14.3793H36.0928L33.8139 10.8444L33.8125 10.8459ZM34.233 3.97579H32.5862V7.26945H34.233C35.4775 7.26945 36.0716 6.64625 36.0716 5.62188C36.0716 4.59752 35.4775 3.97431 34.233 3.97431V3.97579Z"/>
+        <path class="letter" d="M42.333 0.319336H46.8513V14.3807H42.333V0.319336Z"/>
+        <path class="letter" d="M62.2452 10.5039C62.2452 12.9553 60.2725 14.3808 56.5769 14.3808H49.0332V0.319458H56.1945C59.8901 0.319458 61.6131 1.86637 61.6131 3.99504C61.6131 5.30066 60.9809 6.38572 59.7561 7.02817C61.3266 7.63065 62.2452 8.83561 62.2452 10.5039ZM53.4753 3.63384V5.72254H55.5821C56.5966 5.72254 57.0566 5.36135 57.0566 4.67745C57.0566 3.99356 56.5966 3.63236 55.5821 3.63236H53.4753V3.63384ZM57.6874 9.96064C57.6874 9.23825 57.1893 8.85633 56.1945 8.85633H53.4753V11.0664H56.1945C57.1907 11.0664 57.6874 10.6845 57.6874 9.96211V9.96064Z"/>
+        <path class="letter" d="M77.047 10.5039C77.047 12.9553 75.0743 14.3808 71.3786 14.3808H63.835V0.319458H70.9962C74.6919 0.319458 76.4148 1.86637 76.4148 3.99504C76.4148 5.30066 75.7826 6.38572 74.5578 7.02817C76.1284 7.63065 77.047 8.83561 77.047 10.5039ZM68.2771 3.63384V5.72254H70.3838C71.3984 5.72254 71.8584 5.36135 71.8584 4.67745C71.8584 3.99356 71.3984 3.63236 70.3838 3.63236H68.2771V3.63384ZM72.4892 9.96064C72.4892 9.23825 71.991 8.85633 70.9962 8.85633H68.2771V11.0664H70.9962C71.9925 11.0664 72.4892 10.6845 72.4892 9.96211V9.96064Z"/>
+        <path class="letter" d="M78.6328 0.319336H83.1511V10.7051H89.2019V14.3807H78.6328V0.319336Z"/>
+        <path class="letter" d="M101.59 10.8058V14.3807H90.4453V0.319336H101.34V3.89573H94.8874V5.54331H100.556V8.95835H94.8874V10.8058H101.59Z"/>
+        <path class="letter" d="M4.67377 4.49901C4.67377 4.01643 5.09428 3.61527 6.41647 3.61527C7.58485 3.61527 8.82943 3.95722 10.1502 4.66036L11.5091 1.22459C10.1121 0.400062 8.25511 -0.00109863 6.45457 -0.00109863C2.29891 -0.00109863 0.211914 2.12757 0.211914 4.73881C0.211914 9.98203 7.62295 8.55502 7.62295 10.3225C7.62295 10.8051 7.16293 11.0863 5.88025 11.0863C5.62344 11.0863 5.36097 11.0656 5.09569 11.0375C5.22974 11.4046 5.30735 11.8028 5.30735 12.2202C5.30735 13.1632 4.92918 14.0129 4.32523 14.6154C4.82476 14.6716 5.33416 14.7027 5.84356 14.7027C9.99922 14.7027 12.0862 12.5326 12.0862 9.9613C12.0862 4.77878 4.67518 6.18506 4.67518 4.49752L4.67377 4.49901Z"/>
+      </svg>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;">27 MAY 2025 &nbsp;·&nbsp; 3PM–7PM</div>
+      <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,.25);margin-top:4px;">Menara Bata, Kuala Lumpur</div>
+    </div>
+  </div>
+
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div class="accent-line"></div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;">Hands-On Workshop</div>
+    <h1 class="display" style="font-size:64px;margin-bottom:16px;">AI for<br>Non-Technical<br><span style="color:var(--magenta);">Executives.</span></h1>
+    <p style="font-size:18px;font-weight:400;color:rgba(255,255,255,.5);margin-top:20px;">Trainer: <span style="color:#fff;font-weight:600;">Teng Chan Leong</span></p>
+  </div>
+
+  <div style="display:flex;gap:24px;margin-top:auto;">
+    <span class="pill pill-teal">Free Event</span>
+    <span style="font-size:12px;color:rgba(255,255,255,.3);align-self:center;">4 modules · hands-on · no coding required</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 2 — BEFORE WE START -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="2">
+  <div class="slide-header">
+    <div class="eyebrow">Setup</div>
+    <h3 class="slide-title">Before We Start</h3>
+    <p class="lead">Make sure you have these ready on your laptop.</p>
+  </div>
+  <div class="cols cols-3">
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-label">Step 1</div>
+      <div class="card-h">Claude.ai Account</div>
+      <div class="card-p">Go to <strong>claude.ai</strong> and sign up for a free account. Or log in if you already have one. Free tier works for today.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💻</div>
+      <div class="card-label">Step 2</div>
+      <div class="card-h">Claude Code (Optional)</div>
+      <div class="card-p">If you have Claude Code installed, great. If not, no worries — we'll walk through the setup during Module 1.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📄</div>
+      <div class="card-label">Step 3</div>
+      <div class="card-h">Download sales-data.csv</div>
+      <div class="card-p">Download the file <strong>sales-data.csv</strong> from the shared folder. We'll use it in Module 2 for the data analysis activity.</div>
+    </div>
+  </div>
+  <div style="margin-top:32px;padding:20px 24px;background:rgba(0,187,190,.08);border-radius:14px;border-left:3px solid var(--teal);">
+    <span style="font-size:14px;color:var(--carbon);">📱 <strong>Name cards?</strong> Keep 1–2 physical business cards handy for Activity 2. We'll scan them live.</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 3 — AGENDA -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide cover" data-index="3">
+  <div class="eyebrow eyebrow-teal" style="margin-bottom:28px;">Today's Agenda</div>
+  <div style="display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center;">
+    <div class="agenda-item">
+      <div class="agenda-time">3:00PM</div>
+      <div class="agenda-num" style="background:var(--teal);">1</div>
+      <div><div class="agenda-text">Module 1 — AI Fundamentals</div><div class="agenda-desc">What is AI · Claude.ai vs Claude Code · Prompt writing · Hands-on</div></div>
+      <div style="margin-left:auto;"><span class="pill pill-teal">40 min</span></div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">3:40PM</div>
+      <div class="agenda-num" style="background:var(--magenta);">2</div>
+      <div><div class="agenda-text">Module 2 — Real-World Use Cases</div><div class="agenda-desc">Networking · Research · Data Analysis · Presentation</div></div>
+      <div style="margin-left:auto;"><span class="pill pill-mag">80 min</span></div>
+    </div>
+    <div class="agenda-item" style="background:rgba(252,254,148,.08);border-color:rgba(252,254,148,.2);">
+      <div class="agenda-time">5:00PM</div>
+      <div class="agenda-num" style="background:var(--yellow-lime);color:var(--carbon);">☕</div>
+      <div><div class="agenda-text" style="color:rgba(255,255,255,.5);">Break</div></div>
+      <div style="margin-left:auto;"><span style="font-size:11px;color:rgba(255,255,255,.3);font-weight:600;">10 min</span></div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">5:10PM</div>
+      <div class="agenda-num" style="background:var(--purple);color:var(--carbon);">3</div>
+      <div><div class="agenda-text">Module 3 — Project Management with AI</div><div class="agenda-desc">Projects · Custom instructions · Automations · Skills</div></div>
+      <div style="margin-left:auto;"><span class="pill" style="background:var(--purple);color:var(--carbon);">35 min</span></div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">5:45PM</div>
+      <div class="agenda-num" style="background:var(--olive);color:var(--carbon);">4</div>
+      <div><div class="agenda-text">Module 4 — MCPs &amp; Connectors</div><div class="agenda-desc">What are MCPs · Google Drive/Sheets demo · Hands-on</div></div>
+      <div style="margin-left:auto;"><span class="pill" style="background:var(--olive);color:var(--carbon);">30 min</span></div>
+    </div>
+    <div class="agenda-item">
+      <div class="agenda-time">6:15PM</div>
+      <div class="agenda-num" style="background:rgba(255,255,255,.15);">Q</div>
+      <div><div class="agenda-text">Summary, Q&amp;A &amp; Next Steps</div></div>
+      <div style="margin-left:auto;"><span style="font-size:11px;color:rgba(255,255,255,.3);font-weight:600;">20 min</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 4 — MODULE 1 SECTION -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide section-slide" data-index="4">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:200px;font-weight:900;color:rgba(255,255,255,.03);line-height:1;user-select:none;">01</div>
+    <span class="module-tag tag-teal" style="width:fit-content;">Module 1</span>
+    <h2 class="section-title" style="max-width:600px;">AI Fundamentals — Getting Started with Claude</h2>
+    <p class="lead-light" style="margin-top:16px;max-width:520px;">What AI actually is, the difference between Claude.ai and Claude Code, and how to write prompts that actually work.</p>
+    <div style="display:flex;gap:16px;margin-top:40px;">
+      <div class="timer">⏱ 40 minutes</div>
+      <span class="pill pill-teal">Body + Activity</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 5 — WHAT IS AI? -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="5">
+  <div class="slide-header">
+    <span class="module-tag tag-teal">Module 1</span>
+    <h3 class="slide-title">What Is AI? (In Plain English)</h3>
+  </div>
+  <div class="cols cols-3">
+    <div class="card">
+      <div style="font-size:40px;margin-bottom:16px;">🔍</div>
+      <div class="card-label">Concept 1</div>
+      <div class="card-h">Pattern Recognition</div>
+      <div class="card-p">AI learns from billions of examples — emails, books, websites — and recognises patterns in language the same way you recognise a friend's voice.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:40px;margin-bottom:16px;">💬</div>
+      <div class="card-label">Concept 2</div>
+      <div class="card-h">Autocomplete on Steroids</div>
+      <div class="card-p">A Large Language Model (LLM) predicts what word comes next — but it's so good at this, it can write emails, analyse data, and have real conversations.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--magenta);">
+      <div style="font-size:40px;margin-bottom:16px;">🤝</div>
+      <div class="card-label">Concept 3</div>
+      <div class="card-h">Claude Is Your AI Partner</div>
+      <div class="card-p">Claude is built by Anthropic to be helpful, harmless, and honest. Think of it as a very fast, very well-read intern who never gets tired.</div>
+    </div>
+  </div>
+  <div style="margin-top:28px;padding:18px 24px;background:rgba(183,30,108,.06);border-radius:12px;border-left:3px solid var(--magenta);">
+    <p style="font-size:15px;color:var(--carbon);">💡 <strong>The key insight:</strong> AI doesn't understand — it <em>predicts</em>. The better your instructions, the better its predictions.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 6 — CLAUDE.AI VS CLAUDE CODE -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="6">
+  <div class="slide-header">
+    <span class="module-tag tag-teal">Module 1</span>
+    <h3 class="slide-title">Claude.ai vs Claude Code</h3>
+    <p class="lead">Two tools, same brain — choose based on what you need.</p>
+  </div>
+  <div class="cols cols-2">
+    <div class="compare-col">
+      <div class="compare-head" style="color:var(--teal);">🌐 Claude.ai</div>
+      <div class="compare-sub" style="color:var(--teal);">Browser — No installation needed</div>
+      <ul class="compare-list">
+        <li>Chat interface, works like WhatsApp for AI</li>
+        <li>Upload images, PDFs, spreadsheets</li>
+        <li>Organise work into Projects</li>
+        <li>Great for writing, research, and analysis</li>
+        <li>Free tier available — start here today</li>
+      </ul>
+    </div>
+    <div class="compare-col highlight">
+      <div class="compare-head" style="color:var(--magenta);">⚡ Claude Code</div>
+      <div class="compare-sub" style="color:rgba(255,255,255,.5);">CLI (Command Line) — More powerful</div>
+      <ul class="compare-list light">
+        <li>Runs directly on your computer</li>
+        <li>Reads and creates files automatically</li>
+        <li>Builds automations and workflows</li>
+        <li>Connects to apps via MCPs (Module 4)</li>
+        <li>Used for building custom skills</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:24px;text-align:center;padding:14px;background:rgba(0,187,190,.08);border-radius:10px;">
+    <span style="font-size:14px;color:var(--carbon);font-weight:600;">Start with Claude.ai today → Claude Code is your next power-up</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 7 — WRITING GREAT PROMPTS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="7">
+  <div class="slide-header">
+    <span class="module-tag tag-teal">Module 1</span>
+    <h3 class="slide-title">Writing Effective Prompts</h3>
+    <p class="lead">The 3-part formula that turns average results into great ones.</p>
+  </div>
+  <div class="formula" style="margin-bottom:28px;">
+    <div class="formula-part" style="background:var(--teal);color:#fff;">
+      <div class="f-label">Part 1</div>
+      <div class="f-title">ROLE</div>
+      <div class="f-desc">"You are a senior business consultant…"</div>
+    </div>
+    <div class="formula-plus">+</div>
+    <div class="formula-part" style="background:var(--carbon);color:#fff;">
+      <div class="f-label">Part 2</div>
+      <div class="f-title">TASK</div>
+      <div class="f-desc">"Summarise this report for my board…"</div>
+    </div>
+    <div class="formula-plus">+</div>
+    <div class="formula-part" style="background:var(--magenta);color:#fff;">
+      <div class="f-label">Part 3</div>
+      <div class="f-title">CONTEXT</div>
+      <div class="f-desc">"Audience: CFOs. Format: 5 bullets. Tone: formal."</div>
+    </div>
+  </div>
+  <div class="cols cols-2">
+    <div style="padding:20px 24px;background:#f0f9f0;border-radius:12px;border-left:3px solid #4caf50;">
+      <div style="font-size:11px;font-weight:700;color:#4caf50;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">✅ Good Prompt</div>
+      <p style="font-size:13px;color:#444;line-height:1.6;">You are my executive assistant. Draft a professional reply to this client complaint. Keep it under 100 words, empathetic, and end with a clear next step. [paste complaint]</p>
+    </div>
+    <div style="padding:20px 24px;background:#fff0f0;border-radius:12px;border-left:3px solid #f44336;">
+      <div style="font-size:11px;font-weight:700;color:#f44336;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">❌ Weak Prompt</div>
+      <p style="font-size:13px;color:#444;line-height:1.6;">Reply to this email.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 8 — ACTIVITY 1 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity" data-index="8">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+    <div>
+      <span class="module-tag tag-activity">Activity 1 — Module 1</span>
+      <h3 class="slide-title-light">Your First AI Task</h3>
+    </div>
+    <div class="timer">⏱ 20 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num step-num-light">1</div>
+          <div class="step-content">
+            <div class="step-title-light">Open claude.ai</div>
+            <div class="step-desc-light">Start a new conversation (no Project needed yet)</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">2</div>
+          <div class="step-content">
+            <div class="step-title-light">Copy the prompt →</div>
+            <div class="step-desc-light">Replace [CAPS] with your real information</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">3</div>
+          <div class="step-content">
+            <div class="step-title-light">Read the result</div>
+            <div class="step-desc-light">Then ask Claude to make it shorter, change the tone, or try again</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">4</div>
+          <div class="step-content">
+            <div class="step-title-light">Bonus challenge</div>
+            <div class="step-desc-light">Ask Claude: "Give me 3 alternative versions with different tones"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label-light">Copy this prompt:</div>
+      <div class="prompt-box-light">You are my professional executive assistant.
+
+A client sent me this message:
+"I'm very unhappy with the project delays. This is unacceptable and I'm considering cancelling our contract."
+
+Write a professional reply that:
+1. Acknowledges their frustration (empathetic)
+2. Takes responsibility without over-apologising
+3. Gives one clear next step with a specific date
+4. Is under 120 words
+
+My name is [YOUR NAME].
+My company is [COMPANY NAME].
+Proposed next step: [E.G. CALL ON FRIDAY AT 2PM]</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 9 — MODULE 2 SECTION -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide section-slide" data-index="9">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:200px;font-weight:900;color:rgba(255,255,255,.03);line-height:1;user-select:none;">02</div>
+    <span class="module-tag tag-magenta" style="width:fit-content;">Module 2</span>
+    <h2 class="section-title" style="max-width:640px;">AI in Action — Real-World Use Cases for Executives</h2>
+    <p class="lead-light" style="margin-top:16px;max-width:540px;">Networking, research, data analysis, and presentations — all with hands-on activities using real prompts.</p>
+    <div style="display:flex;gap:16px;margin-top:40px;">
+      <div class="timer">⏱ 80 minutes</div>
+      <span class="pill pill-mag">4 sub-topics</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 10 — PROFESSIONAL NETWORKING -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="10">
+  <div class="slide-header">
+    <span class="module-tag tag-magenta">Module 2 · Networking</span>
+    <h3 class="slide-title">Professional Networking &amp; Business Development</h3>
+  </div>
+  <div class="cols cols-2">
+    <div class="card card-mag">
+      <div style="font-size:32px;margin-bottom:14px;">🔗</div>
+      <div class="card-label">Use Case A</div>
+      <div class="card-h">LinkedIn Research</div>
+      <div class="card-p">Before any meeting, paste a contact's LinkedIn summary into Claude. Get tailored conversation starters, a personalised connection message, and their likely business challenges — in under 60 seconds.</div>
+    </div>
+    <div class="card card-teal">
+      <div style="font-size:32px;margin-bottom:14px;">💳</div>
+      <div class="card-label">Use Case B</div>
+      <div class="card-h">Name Card → Phone Contact</div>
+      <div class="card-p">Take a photo of a business card. Upload it to Claude.ai. Claude extracts all details and gives you a VCF file you can import directly into your phone contacts or CRM — no manual typing needed.</div>
+    </div>
+  </div>
+  <div style="margin-top:28px;display:flex;gap:16px;">
+    <div style="flex:1;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.08);">
+      <div style="font-size:12px;font-weight:700;color:var(--magenta);letter-spacing:.08em;margin-bottom:6px;">LINKEDIN INTEL</div>
+      <p style="font-size:13px;color:#666;">Conversation starters · Connection message · Business pain points · Industry context</p>
+    </div>
+    <div style="flex:1;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.08);">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:6px;">NAME CARD → VCF</div>
+      <p style="font-size:13px;color:#666;">Name · Title · Company · Phone · Email · Address → Importable contact file</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 11 — ACTIVITY 2A: LinkedIn -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity" data-index="11">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag tag-activity">Activity 2A — LinkedIn Research</span>
+      <h3 class="slide-title-light">Research a Contact Before a Meeting</h3>
+    </div>
+    <div class="timer">⏱ 15 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num step-num-light">1</div>
+        <div class="step-content">
+          <div class="step-title-light">Open LinkedIn</div>
+          <div class="step-desc-light">Find someone you've recently met or plan to meet soon</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num step-num-light">2</div>
+        <div class="step-content">
+          <div class="step-title-light">Copy their About + Experience</div>
+          <div class="step-desc-light">Copy their name, title, company, About section, and 2–3 recent roles or posts</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num step-num-light">3</div>
+        <div class="step-content">
+          <div class="step-title-light">Paste into Claude with this prompt →</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label-light">Prompt to use:</div>
+      <div class="prompt-box-light">I'm meeting [NAME] from [COMPANY] next week.
+Here is their LinkedIn profile:
+
+[PASTE NAME, TITLE, COMPANY, ABOUT, RECENT ROLES]
+
+Please give me:
+1. Three conversation starters based on their background
+2. A personalised LinkedIn connection message (under 280 characters)
+3. The top 3 business challenges they likely face in their role
+4. One thing we might have in common professionally</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 12 — ACTIVITY 2B: Name Card VCF -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity-teal" data-index="12">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag" style="background:rgba(0,0,0,.2);color:#fff;width:fit-content;">Activity 2B — Name Card → VCF</span>
+      <h3 class="slide-title-light">Scan a Business Card to Your Phone</h3>
+    </div>
+    <div class="timer" style="background:rgba(0,0,0,.2);border-color:rgba(0,0,0,.2);">⏱ 10 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">1</div>
+        <div class="step-content">
+          <div class="step-title-light">Take a photo of a name card</div>
+          <div class="step-desc-light">Use your phone camera. Any name card — yours or someone else's</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">2</div>
+        <div class="step-content">
+          <div class="step-title-light">Upload it to Claude.ai</div>
+          <div class="step-desc-light">Click the paperclip icon and attach the photo</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">3</div>
+        <div class="step-content">
+          <div class="step-title-light">Use the prompt →</div>
+          <div class="step-desc-light">Claude will return a VCF file. Copy it, save as contact.vcf, and import</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">4</div>
+        <div class="step-content">
+          <div class="step-title-light">Import to your phone</div>
+          <div class="step-desc-light">iPhone: Files app → tap .vcf file · Android: Contacts app → Import</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label-light">Prompt to use:</div>
+      <div class="prompt-box-light">I've uploaded a photo of a business card.
+
+Please:
+1. Extract ALL contact information visible on the card
+2. Format it as a complete VCF (vCard 3.0) file
+3. Include every field: name, title, company, phone, email, website, address
+4. Show the full VCF text so I can copy it
+
+If any field is unclear from the image, make your best guess and note it.</div>
+      <div style="margin-top:14px;padding:12px 16px;background:rgba(0,0,0,.15);border-radius:10px;">
+        <p style="font-size:12px;color:rgba(255,255,255,.7);">💡 <strong>Tip:</strong> You can upload up to 10 name card photos in one message and ask Claude to create all VCFs at once.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 13 — RESEARCH & SYNTHESIS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="13">
+  <div class="slide-header">
+    <span class="module-tag tag-magenta">Module 2 · Research</span>
+    <h3 class="slide-title">Research &amp; Knowledge Synthesis</h3>
+  </div>
+  <div class="cols cols-3">
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">📰</div>
+      <div class="card-label">Use Case A</div>
+      <div class="card-h">Document Summarisation</div>
+      <div class="card-p">Upload any PDF, paste any article. Get a 5-bullet summary, key takeaways, and action items — tailored for your role and audience.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">🔭</div>
+      <div class="card-label">Use Case B</div>
+      <div class="card-h">Competitive Intelligence</div>
+      <div class="card-p">Paste a competitor's website copy, pricing, or press release. Claude structures the intelligence and highlights strategic implications.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">📊</div>
+      <div class="card-label">Use Case C</div>
+      <div class="card-h">Market Research Brief</div>
+      <div class="card-p">Describe your target market. Claude generates a structured research brief: size, trends, buyer personas, and key questions to validate.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 14 — ACTIVITY 3 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity" data-index="14">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag tag-activity">Activity 3 — Research</span>
+      <h3 class="slide-title-light">Summarise Any Document in 60 Seconds</h3>
+    </div>
+    <div class="timer">⏱ 10 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div>
+      <div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:16px;">Choose any one of these:</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num step-num-light">A</div>
+          <div class="step-content">
+            <div class="step-title-light">Long email thread</div>
+            <div class="step-desc-light">Copy an email chain from your inbox with 5+ messages</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">B</div>
+          <div class="step-content">
+            <div class="step-title-light">News article or industry report</div>
+            <div class="step-desc-light">Paste any article text from your browser</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">C</div>
+          <div class="step-content">
+            <div class="step-title-light">Upload a PDF</div>
+            <div class="step-desc-light">Any report, proposal, or document (max 10MB on free tier)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label-light">Prompt to use:</div>
+      <div class="prompt-box-light">Here is [an email thread / an article / a report]:
+
+[PASTE YOUR CONTENT HERE]
+
+Please:
+1. Summarise in exactly 5 bullet points (max 15 words each)
+2. Identify the single most important fact for a business executive
+3. List 2 specific action items I should take
+4. Flag anything that requires urgent attention
+
+My role: [YOUR TITLE, E.G. CEO / HEAD OF SALES / OPERATIONS MANAGER]</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 15 — WHAT ARE SKILLS? -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="15">
+  <div class="slide-header">
+    <span class="module-tag tag-magenta">Module 2 · Skills</span>
+    <h3 class="slide-title">What Are Skills in Claude Code?</h3>
+    <p class="lead">Pre-built, reusable AI workflows — one command, one complex multi-step result.</p>
+  </div>
+  <div class="cols cols-2" style="align-items:start;">
+    <div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="background:var(--magenta);">1</div>
+          <div class="step-content">
+            <div class="step-title">What is a Skill?</div>
+            <div class="step-desc">A skill is a saved instruction set that Claude Code runs on demand. Think of it like a macro — you trigger it once and it executes a full workflow automatically.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--magenta);">2</div>
+          <div class="step-content">
+            <div class="step-title">How to discover skills</div>
+            <div class="step-desc">In Claude Code, just type: <strong>"find me a skill for [task]"</strong> — or use the <code style="background:#eee;padding:2px 6px;border-radius:4px;font-size:12px;">/find-skills</code> command to browse the library.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--magenta);">3</div>
+          <div class="step-content">
+            <div class="step-title">How to use a skill</div>
+            <div class="step-desc">Just describe what you want in plain English. Claude Code recognises the intent and invokes the right skill. No commands to memorise.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cols" style="gap:16px;grid-template-columns:1fr;">
+      <div class="card card-mag">
+        <div class="card-label">Example Skills in the Library</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px;">
+          <div style="font-size:14px;color:var(--carbon);">🎨 <strong>design-system</strong> — Extract any brand's CI from a URL</div>
+          <div style="font-size:14px;color:var(--carbon);">📊 <strong>frontend-slides</strong> — Generate HTML presentations</div>
+          <div style="font-size:14px;color:var(--carbon);">🔍 <strong>business-analyst</strong> — Deep business process analysis</div>
+          <div style="font-size:14px;color:var(--carbon);">📝 <strong>technical-writer</strong> — Auto-generate documentation</div>
+          <div style="font-size:14px;color:var(--carbon);">🔒 <strong>security-review</strong> — Audit code for vulnerabilities</div>
+        </div>
+      </div>
+      <div style="padding:16px 20px;background:#fff;border-radius:12px;border:1.5px solid rgba(183,30,108,.2);">
+        <div style="font-size:12px;font-weight:700;color:var(--magenta);letter-spacing:.08em;margin-bottom:6px;">TRIGGER PHRASE</div>
+        <p style="font-size:14px;color:var(--carbon);">You don't install manually — just describe the task to Claude Code and it selects the right skill automatically.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 16 — THE DESIGN-SYSTEM SKILL -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content-white" data-index="16">
+  <div class="slide-header">
+    <span class="module-tag tag-magenta">Module 2 · Skills</span>
+    <h3 class="slide-title">The design-system Skill — Brand Intelligence</h3>
+    <p class="lead">Give Claude Code any website URL, screenshot, or brand asset. It extracts the full CI and exports a design system + brand book.</p>
+  </div>
+  <div class="cols cols-2" style="align-items:start;gap:32px;">
+    <div>
+      <div class="cols" style="gap:16px;grid-template-columns:1fr;">
+        <div class="card card-teal">
+          <div class="card-label-teal">What you give Claude Code</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+            <div style="font-size:14px;color:var(--carbon);">🌐 A website URL (e.g. competitor's site)</div>
+            <div style="font-size:14px;color:var(--carbon);">🖼 A screenshot of their branding</div>
+            <div style="font-size:14px;color:var(--carbon);">📄 Existing brand assets or PDF</div>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--magenta);">
+          <div class="card-label">What you get back</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+            <div style="font-size:14px;color:var(--carbon);">🎨 Extracted color palette with hex codes</div>
+            <div style="font-size:14px;color:var(--carbon);">✍️ Typography choices and weights</div>
+            <div style="font-size:14px;color:var(--carbon);">💬 Brand voice and tone analysis</div>
+            <div style="font-size:14px;color:var(--carbon);">📋 Full design system HTML reference page</div>
+            <div style="font-size:14px;color:var(--carbon);">📄 1-page A4 brand book PDF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--carbon);margin-bottom:14px;">How to trigger it in Claude Code:</div>
+      <div class="prompt-label">Step 1 — Extract the CI:</div>
+      <div class="prompt-box" style="margin-bottom:16px;">Extract the design system from https://[COMPETITOR-WEBSITE].com
+
+Give me their complete brand identity: colors, fonts, brand voice, and generate the design system HTML.</div>
+      <div class="prompt-label">Step 2 — Generate research brief:</div>
+      <div class="prompt-box">Using the CI you just extracted, create a competitive research brief covering:
+1. Brand positioning and target audience
+2. Key visual and messaging differentiators
+3. How they compare to [MY COMPANY]
+4. Strategic opportunities for our next pitch</div>
+      <div style="margin-top:14px;padding:12px 16px;background:rgba(0,187,190,.08);border-radius:10px;border-left:3px solid var(--teal);">
+        <p style="font-size:13px;color:var(--carbon);">💡 <strong>Why this matters:</strong> You learn a competitor's brand strategy — not just what they say, but how they position — in under 2 minutes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 17 — ACTIVITY 3B: DESIGN-SYSTEM + RESEARCH BRIEF -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity" data-index="17">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag tag-activity">Activity 3B — Skills + Research</span>
+      <h3 class="slide-title-light">Extract a Brand CI &amp; Generate a Research Brief</h3>
+    </div>
+    <div class="timer">⏱ 15 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num step-num-light">1</div>
+        <div class="step-content">
+          <div class="step-title-light">Open Claude Code</div>
+          <div class="step-desc-light">In your terminal, run: <code style="background:rgba(255,255,255,.15);padding:2px 8px;border-radius:4px;font-size:12px;">claude</code></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num step-num-light">2</div>
+        <div class="step-content">
+          <div class="step-title-light">Pick a competitor or client website</div>
+          <div class="step-desc-light">Choose any company whose brand strategy you want to understand — a competitor, a prospect, or even your own company</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num step-num-light">3</div>
+        <div class="step-content">
+          <div class="step-title-light">Run Prompt A (extract CI)</div>
+          <div class="step-desc-light">Claude Code will invoke the design-system skill and generate the brand file</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num step-num-light">4</div>
+        <div class="step-content">
+          <div class="step-title-light">Run Prompt B (research brief)</div>
+          <div class="step-desc-light">Claude uses the extracted CI as context and writes the brief automatically</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div>
+        <div class="prompt-label-light">Prompt A — Extract the CI:</div>
+        <div class="prompt-box-light">Extract the design system from https://[COMPETITOR URL]
+
+Give me their brand identity: color palette, typography, brand voice, and visual style. Generate the full design system as an HTML file.</div>
+      </div>
+      <div>
+        <div class="prompt-label-light">Prompt B — Research Brief:</div>
+        <div class="prompt-box-light">Using the CI you just extracted for [COMPANY], create a competitive research brief:
+
+1. Brand positioning and target audience
+2. Key messaging and tone of voice
+3. Visual identity strengths and gaps vs. [MY COMPANY]
+4. Top 3 strategic insights for my sales team
+5. Recommended talking points for our next pitch against them
+
+Keep it under 1 page. Format for a senior executive.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 18 — DATA ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="18">
+  <div class="slide-header">
+    <span class="module-tag tag-magenta">Module 2 · Data Analysis</span>
+    <h3 class="slide-title">Analysing Data in Plain English</h3>
+  </div>
+  <div class="cols cols-2" style="align-items:start;">
+    <div>
+      <div class="cols" style="gap:16px;grid-template-columns:1fr;">
+        <div class="card card-mag" style="padding:20px 24px;">
+          <div class="card-label">What Claude can do</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+            <div style="font-size:14px;color:var(--carbon);">📈 Spot trends and month-over-month changes</div>
+            <div style="font-size:14px;color:var(--carbon);">🏆 Rank performance by region, product, or rep</div>
+            <div style="font-size:14px;color:var(--carbon);">⚠️ Flag anomalies and concerning patterns</div>
+            <div style="font-size:14px;color:var(--carbon);">📋 Generate an executive summary table</div>
+            <div style="font-size:14px;color:var(--carbon);">💡 Recommend 2–3 data-driven actions</div>
+          </div>
+        </div>
+        <div style="padding:16px 20px;background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.08);">
+          <div style="font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:8px;">TODAY'S ACTIVITY DATA</div>
+          <p style="font-size:13px;color:#666;">File: <strong>sales-data.csv</strong><br>Jan–May 2025 · 3 regions · 3 products · 3 reps</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--carbon);margin-bottom:12px;">Sample of the dataset you'll analyse:</div>
+      <div style="overflow:auto;border-radius:12px;border:1px solid rgba(0,0,0,.1);">
+        <table class="data-table">
+          <thead>
+            <tr><th>Month</th><th>Region</th><th>Product</th><th>Rep</th><th>Revenue</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Jan 2025</td><td>KL</td><td>Digital Mktg</td><td>Ahmad</td><td>RM 36,000</td></tr>
+            <tr><td>Jan 2025</td><td>Penang</td><td>Web Dev</td><td>Siti</td><td>RM 21,000</td></tr>
+            <tr><td>Feb 2025</td><td>KL</td><td>Digital Mktg</td><td>Ahmad</td><td>RM 45,000</td></tr>
+            <tr><td>Mar 2025</td><td>JB</td><td>Branding</td><td>Kevin</td><td>RM 45,000</td></tr>
+            <tr><td>May 2025</td><td>KL</td><td>Digital Mktg</td><td>Ahmad</td><td>RM 60,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;color:#999;margin-top:8px;">Full dataset: 30 rows · 5 months · Jan–May 2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 19 — ACTIVITY 4: DATA ANALYSIS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity" data-index="19">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <span class="module-tag tag-activity">Activity 4 — Data Analysis</span>
+      <h3 class="slide-title-light">Build a Sales Dashboard with AI</h3>
+    </div>
+    <div class="timer">⏱ 15 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:20px;">
+    <div>
+      <div class="steps" style="gap:12px;">
+        <div class="step">
+          <div class="step-num step-num-light">1</div>
+          <div class="step-content">
+            <div class="step-title-light">Upload sales-data.csv to Claude.ai</div>
+            <div class="step-desc-light">Click the paperclip icon and attach the file</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">2</div>
+          <div class="step-content">
+            <div class="step-title-light">Run Prompt A → then B → then C</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">3</div>
+          <div class="step-content">
+            <div class="step-title-light">Bonus: Ask for a text dashboard</div>
+            <div class="step-desc-light">"Create a management dashboard showing KPIs at a glance"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-scroll">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <div class="prompt-label-light">Prompt A — Overview:</div>
+          <div class="prompt-box-light" style="font-size:12px;">I've uploaded our Jan–May 2025 sales data.
+What are the top 3 insights a sales director should know?</div>
+        </div>
+        <div>
+          <div class="prompt-label-light">Prompt B — Breakdown:</div>
+          <div class="prompt-box-light" style="font-size:12px;">Which region had the highest total revenue?
+Which product is our best performer?
+Who is the top sales rep?
+Show results in a summary table.</div>
+        </div>
+        <div>
+          <div class="prompt-label-light">Prompt C — Action:</div>
+          <div class="prompt-box-light" style="font-size:12px;">Are there any concerning trends?
+What 2 specific actions would you recommend to the sales team to improve performance in June?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 20 — PRESENTATION CREATION -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="20">
+  <div class="slide-header">
+    <span class="module-tag tag-magenta">Module 2 · Presentations</span>
+    <h3 class="slide-title">Presentation Creation</h3>
+    <p class="lead">From rough notes to polished slide deck outline — in minutes.</p>
+  </div>
+  <div class="cols cols-2" style="align-items:start;">
+    <div class="cols" style="gap:16px;grid-template-columns:1fr;">
+      <div class="card">
+        <div class="card-label">What you can give Claude</div>
+        <div class="card-h" style="margin-bottom:12px;">Raw inputs</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:14px;color:#666;">📝 Meeting notes or bullet points</div>
+          <div style="font-size:14px;color:#666;">📊 Data or findings from a report</div>
+          <div style="font-size:14px;color:#666;">🎯 A goal: "convince CEO to approve budget"</div>
+          <div style="font-size:14px;color:#666;">💬 A transcript or voice memo</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--teal);">
+        <div class="card-label">What Claude gives back</div>
+        <div class="card-h" style="margin-bottom:12px;">Structured output</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:14px;color:#666;">📑 Slide-by-slide outline with titles</div>
+          <div style="font-size:14px;color:#666;">💬 3 talking points per slide</div>
+          <div style="font-size:14px;color:#666;">🖼 Recommended visual for each slide</div>
+          <div style="font-size:14px;color:#666;">🎤 Speaker notes for key slides</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:28px;background:rgba(183,30,108,.05);border-radius:16px;border:1.5px solid rgba(183,30,108,.15);">
+      <div style="font-size:13px;font-weight:700;color:var(--magenta);letter-spacing:.08em;margin-bottom:16px;">ACTIVITY 5 PREVIEW</div>
+      <p style="font-size:14px;color:var(--carbon);line-height:1.6;margin-bottom:16px;">You'll turn these meeting notes into a complete 5-slide executive presentation:</p>
+      <div style="background:var(--carbon);border-radius:10px;padding:16px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;">
+        - Expand to East Malaysia by Q4<br>
+        - Budget: RM500,000<br>
+        - Challenges: logistics, partners, talent<br>
+        - Revenue target: RM2M year 1<br>
+        - Need CEO approval next week
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 21 — ACTIVITY 5 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide activity" data-index="21">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag tag-activity">Activity 5 — Presentation</span>
+      <h3 class="slide-title-light">Build a 5-Slide Executive Deck</h3>
+    </div>
+    <div class="timer">⏱ 15 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num step-num-light">1</div>
+          <div class="step-content">
+            <div class="step-title-light">Option A: Use the sample notes →</div>
+            <div class="step-desc-light">Paste the prompt with the provided meeting notes</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">2</div>
+          <div class="step-content">
+            <div class="step-title-light">Option B: Use your own notes</div>
+            <div class="step-desc-light">Replace [MEETING NOTES] with actual notes from a recent meeting</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num step-num-light">3</div>
+          <div class="step-content">
+            <div class="step-title-light">Iterate</div>
+            <div class="step-desc-light">Ask Claude: "Make slide 3 more persuasive" or "Add a financial impact slide"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label-light">Prompt to use:</div>
+      <div class="prompt-box-light">Here are my rough notes from a strategy meeting:
+
+- Expand to East Malaysia by Q4 2025
+- Budget request: RM500,000
+- Main challenges: logistics, local partnerships, talent recruitment
+- Revenue target: RM2M in first year of operation
+- Need CEO approval at next board meeting
+
+Create a 5-slide executive presentation outline:
+- Slide title
+- 3 key talking points per slide
+- Recommended visual or chart type
+- Keep it under 10 minutes to present
+- Audience: CEO and board of directors
+- Tone: confident, data-driven, persuasive</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 22 — BREAK -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide break-slide" data-index="22">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+    <div style="font-size:72px;margin-bottom:24px;">☕</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow-lime);margin-bottom:16px;">Break Time</div>
+    <h2 style="font-size:52px;font-weight:900;color:#fff;margin-bottom:20px;">10 Minutes</h2>
+    <p style="font-size:18px;color:rgba(255,255,255,.5);margin-bottom:40px;">Grab a drink. Stretch. We'll resume at 5:10PM.</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 24px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:6px;">📱</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);">Try scanning a name card</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 24px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:6px;">📊</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);">Revisit your data results</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 24px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:6px;">💬</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);">Ask me any questions</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 23 — MODULE 3 SECTION -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide section-slide" data-index="23">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:200px;font-weight:900;color:rgba(255,255,255,.03);line-height:1;user-select:none;">03</div>
+    <span class="module-tag" style="background:var(--purple);color:var(--carbon);width:fit-content;">Module 3</span>
+    <h2 class="section-title" style="max-width:600px;">Project Management with AI</h2>
+    <p class="lead-light" style="margin-top:16px;max-width:520px;">Organise your AI work, build automations, and create custom skills that do the repetitive stuff for you.</p>
+    <div style="display:flex;gap:16px;margin-top:40px;">
+      <div class="timer">⏱ 35 minutes</div>
+      <span class="pill" style="background:var(--purple);color:var(--carbon);">Body + Activity</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 24 — CLAUDE PROJECTS & FOLDERS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="24">
+  <div class="slide-header">
+    <span class="module-tag" style="background:var(--purple);color:var(--carbon);">Module 3</span>
+    <h3 class="slide-title">Claude Projects &amp; Folders</h3>
+    <p class="lead">Organise your AI conversations by client, topic, or workflow — with memory that persists.</p>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="background:var(--purple);color:var(--carbon);">1</div>
+          <div class="step-content">
+            <div class="step-title">What is a Project?</div>
+            <div class="step-desc">A dedicated workspace in Claude.ai where Claude remembers everything you tell it — across multiple conversations. Like a brief for a long-term working relationship.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple);color:var(--carbon);">2</div>
+          <div class="step-content">
+            <div class="step-title">How to create one</div>
+            <div class="step-desc">Claude.ai → Projects → New Project → Name it (e.g. "Client X", "Weekly Reports", "My Executive Assistant")</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple);color:var(--carbon);">3</div>
+          <div class="step-content">
+            <div class="step-title">Add documents</div>
+            <div class="step-desc">Upload SOPs, brand guides, past reports — Claude reads them and references them in every reply within the Project.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cols" style="gap:16px;grid-template-columns:1fr;">
+      <div class="card card-mag">
+        <div class="card-label">Example Projects to Create</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+          <div style="font-size:14px;color:var(--carbon);">📁 <strong>My Executive Assistant</strong> — personal daily tasks</div>
+          <div style="font-size:14px;color:var(--carbon);">📁 <strong>Client: [Company X]</strong> — all work for one client</div>
+          <div style="font-size:14px;color:var(--carbon);">📁 <strong>Weekly Reports</strong> — auto-format your updates</div>
+          <div style="font-size:14px;color:var(--carbon);">📁 <strong>HR / Hiring</strong> — job descriptions, interviews</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 25 — CUSTOM INSTRUCTIONS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="25">
+  <div class="slide-header">
+    <span class="module-tag" style="background:var(--purple);color:var(--carbon);">Module 3</span>
+    <h3 class="slide-title">Custom Instructions — Your Personal Rules</h3>
+    <p class="lead">Tell Claude who you are and how you want it to behave — once. Forever.</p>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <p class="body" style="margin-bottom:20px;">Custom instructions are a set of permanent guidelines you give Claude at the Project level. Claude applies them to every conversation in that Project automatically.</p>
+      <div class="card card-teal" style="margin-bottom:0;">
+        <div class="card-label-teal">Template Structure</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+          <div style="font-size:13px;color:var(--carbon);">🎭 <strong>ROLE:</strong> "You are my executive assistant..."</div>
+          <div style="font-size:13px;color:var(--carbon);">👤 <strong>CONTEXT:</strong> Your name, company, industry, role</div>
+          <div style="font-size:13px;color:var(--carbon);">📋 <strong>BEHAVIOURS:</strong> "When I send emails, do X"</div>
+          <div style="font-size:13px;color:var(--carbon);">✍️ <strong>STYLE:</strong> Tone, language, format preferences</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label">Example custom instruction:</div>
+      <div class="prompt-box">You are my executive AI assistant.
+
+About me:
+- Name: [YOUR NAME]
+- Company: [COMPANY NAME]
+- Title: [YOUR ROLE]
+- Industry: [INDUSTRY]
+
+When I share emails: summarise in 3 bullets, list action items
+When I share meeting notes: extract tasks with owner + deadline
+When I ask for reports: formal language, include exec summary first
+When I ask for emails: professional, concise, warm closing
+
+Always respond in English.
+Keep responses under 300 words unless I ask for more.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 26 — AUTOMATIONS & SKILLS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="26">
+  <div class="slide-header">
+    <span class="module-tag" style="background:var(--purple);color:var(--carbon);">Module 3</span>
+    <h3 class="slide-title">Automations &amp; Custom Skills</h3>
+    <p class="lead">In Claude Code, you can build skills — reusable AI workflows that run with one command.</p>
+  </div>
+  <div class="cols cols-3">
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">📧</div>
+      <div class="card-label">Skill Example 1</div>
+      <div class="card-h">Weekly Report Generator</div>
+      <div class="card-p">Type one command → Claude reads your calendar, emails, and tasks → generates your weekly status report automatically.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <div style="font-size:32px;margin-bottom:14px;">🤝</div>
+      <div class="card-label">Skill Example 2</div>
+      <div class="card-h">Meeting Prep Brief</div>
+      <div class="card-p">Give Claude a meeting invite → it reads the attendees' LinkedIn profiles, your past conversations with them, and prepares a briefing doc.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">📊</div>
+      <div class="card-label">Skill Example 3</div>
+      <div class="card-h">Sales Report Formatter</div>
+      <div class="card-p">Drop a CSV into Claude Code → it formats, analyses, and emails a summary dashboard to your team in your branded template.</div>
+    </div>
+  </div>
+  <div style="margin-top:24px;padding:16px 20px;background:rgba(189,161,213,.15);border-radius:12px;border-left:3px solid var(--purple);">
+    <p style="font-size:14px;color:var(--carbon);">💡 <strong>The key difference:</strong> Claude.ai is conversational. Claude Code is operational — it can <em>do</em> things, not just talk about them.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 27 — ACTIVITY 6 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" style="background:var(--purple);" data-index="27">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag" style="background:rgba(0,0,0,.15);color:#fff;width:fit-content;">Activity 6 — Module 3</span>
+      <h3 class="slide-title-light">Set Up Your Personal AI Assistant</h3>
+    </div>
+    <div class="timer" style="background:rgba(0,0,0,.15);border-color:rgba(0,0,0,.15);">⏱ 15 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">1</div>
+        <div class="step-content">
+          <div class="step-title-light">Create a new Project</div>
+          <div class="step-desc-light">Claude.ai → Projects → New Project → Name it "My Executive Assistant"</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">2</div>
+        <div class="step-content">
+          <div class="step-title-light">Add Custom Instructions</div>
+          <div class="step-desc-light">Project Settings → Custom Instructions → Paste and personalise the template →</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.2);">3</div>
+        <div class="step-content">
+          <div class="step-title-light">Test it with a real email</div>
+          <div class="step-desc-light">Open a new chat inside the Project, paste an actual email from your inbox, and see how Claude responds with your rules applied</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="prompt-label-light">Custom instructions template:</div>
+      <div class="prompt-box-light">You are my executive AI assistant.
+
+About me:
+- Name: [YOUR NAME]
+- Company: [COMPANY NAME]
+- Title: [YOUR ROLE]
+- Industry: [YOUR INDUSTRY]
+- Key contacts: [LIST 2–3 NAMES AND THEIR ROLES]
+
+Behaviours:
+- Emails I share: 3-bullet summary + action items
+- Meeting notes I share: extract tasks with owner + deadline
+- Reports I request: executive summary first, then details
+- Emails I need to send: professional, concise, warm tone
+- Always end responses with "Next step:"
+
+Language: English only
+Length: Under 300 words unless asked for more</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 28 — MODULE 4 SECTION -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide section-slide" data-index="28">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div style="position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:200px;font-weight:900;color:rgba(255,255,255,.03);line-height:1;user-select:none;">04</div>
+    <span class="module-tag" style="background:var(--olive);color:var(--carbon);width:fit-content;">Module 4</span>
+    <h2 class="section-title" style="max-width:640px;">MCPs &amp; Connectors — Connecting AI to Your World</h2>
+    <p class="lead-light" style="margin-top:16px;max-width:520px;">What MCPs are, how they let Claude talk to the apps you already use, and a live demo with Google Drive and Sheets.</p>
+    <div style="display:flex;gap:16px;margin-top:40px;">
+      <div class="timer">⏱ 30 minutes</div>
+      <span class="pill" style="background:var(--olive);color:var(--carbon);">Body + Demo + Activity</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 29 — WHAT ARE MCPs? -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="29">
+  <div class="slide-header">
+    <span class="module-tag" style="background:var(--olive);color:var(--carbon);">Module 4</span>
+    <h3 class="slide-title">What Are MCPs?</h3>
+    <p class="lead">MCP = Model Context Protocol. It's a bridge that lets Claude talk to your apps.</p>
+  </div>
+  <div style="margin-bottom:32px;">
+    <div class="mcp-row">
+      <div class="mcp-box">
+        <div class="mcp-icon">👤</div>
+        <div class="mcp-label">You</div>
+      </div>
+      <div class="mcp-arrow">→</div>
+      <div class="mcp-box" style="background:var(--carbon);">
+        <div class="mcp-icon" style="color:white;">🤖</div>
+        <div class="mcp-label" style="color:rgba(255,255,255,.7);">Claude</div>
+      </div>
+      <div class="mcp-arrow">→</div>
+      <div class="mcp-connector">
+        <div class="mcp-icon">🔌</div>
+        <div class="mcp-label">MCP Connector</div>
+      </div>
+      <div class="mcp-arrow">→</div>
+      <div class="mcp-box">
+        <div class="mcp-icon">📂</div>
+        <div class="mcp-label">Your App</div>
+      </div>
+    </div>
+  </div>
+  <div class="cols cols-3">
+    <div class="card">
+      <div class="card-label">Without MCP</div>
+      <div class="card-h">Copy → Paste → Chat</div>
+      <div class="card-p">You copy data from your spreadsheet, paste it into Claude, read the answer, then manually act on it.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--magenta);">
+      <div class="card-label">With MCP</div>
+      <div class="card-h">Claude Reads Directly</div>
+      <div class="card-p">Claude connects to your Google Drive, reads your file, and answers questions about it — without you copying anything.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <div class="card-label">Apps You Can Connect</div>
+      <div class="card-h">Your Existing Stack</div>
+      <div class="card-p">Google Drive · Gmail · Calendar · Notion · Slack · Asana · GitHub · and many more.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 30 — CONNECTING YOUR TOOLS -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide content" data-index="30">
+  <div class="slide-header">
+    <span class="module-tag" style="background:var(--olive);color:var(--carbon);">Module 4</span>
+    <h3 class="slide-title">Your Connected Toolkit</h3>
+    <p class="lead">Today's demo uses Google Drive + Sheets. Here's what else you can connect.</p>
+  </div>
+  <div class="cols" style="grid-template-columns:repeat(4,1fr);gap:16px;">
+    <div class="card" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:36px;margin-bottom:10px;">📂</div>
+      <div class="card-h" style="font-size:15px;">Google Drive</div>
+      <div class="card-p" style="font-size:12px;">Read files, search documents, summarise reports</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;border:2px solid var(--teal);">
+      <div style="font-size:36px;margin-bottom:10px;">📊</div>
+      <div class="card-h" style="font-size:15px;">Google Sheets</div>
+      <div class="card-p" style="font-size:12px;">Analyse data, generate summaries, find trends</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:36px;margin-bottom:10px;">📧</div>
+      <div class="card-h" style="font-size:15px;">Gmail</div>
+      <div class="card-p" style="font-size:12px;">Search threads, draft replies, triage inbox</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:36px;margin-bottom:10px;">📅</div>
+      <div class="card-h" style="font-size:15px;">Google Calendar</div>
+      <div class="card-p" style="font-size:12px;">Read schedule, suggest meeting times, prep briefs</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:36px;margin-bottom:10px;">📝</div>
+      <div class="card-h" style="font-size:15px;">Notion</div>
+      <div class="card-p" style="font-size:12px;">Read pages, update databases, create content</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:36px;margin-bottom:10px;">💬</div>
+      <div class="card-h" style="font-size:15px;">Slack</div>
+      <div class="card-p" style="font-size:12px;">Search conversations, draft messages, summarise channels</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;">
+      <div style="font-size:36px;margin-bottom:10px;">✅</div>
+      <div class="card-h" style="font-size:15px;">Asana / Tasks</div>
+      <div class="card-p" style="font-size:12px;">Create tasks, update status, review overdue items</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 16px;background:rgba(183,30,108,.05);border:1.5px dashed rgba(183,30,108,.3);">
+      <div style="font-size:36px;margin-bottom:10px;">➕</div>
+      <div class="card-h" style="font-size:15px;color:var(--magenta);">And more...</div>
+      <div class="card-p" style="font-size:12px;">GitHub, Jira, HubSpot, Canva, and any app with an API</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 31 — ACTIVITY 7: MCP -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" style="background:var(--olive);" data-index="31">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <span class="module-tag" style="background:rgba(0,0,0,.15);color:var(--carbon);width:fit-content;">Activity 7 — MCPs Demo</span>
+      <h3 style="font-size:36px;font-weight:800;line-height:1.1;color:var(--carbon);">Explore Google Drive + Sheets via MCP</h3>
+    </div>
+    <div class="timer" style="background:rgba(0,0,0,.1);border-color:rgba(0,0,0,.1);color:var(--carbon);">⏱ 10 minutes</div>
+  </div>
+  <div class="cols cols-2" style="flex:1;gap:24px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.15);color:var(--carbon);">1</div>
+        <div class="step-content">
+          <div class="step-title" style="color:var(--carbon);">MCP is pre-configured on trainer's machine</div>
+          <div class="step-desc">Watch the live demo first</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.15);color:var(--carbon);">2</div>
+        <div class="step-content">
+          <div class="step-title" style="color:var(--carbon);">Try the demo prompts</div>
+          <div class="step-desc">Use the prompts on the right — ask them to the trainer or try on your own Claude Code setup</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:rgba(0,0,0,.15);color:var(--carbon);">3</div>
+        <div class="step-content">
+          <div class="step-title" style="color:var(--carbon);">After: set up your own MCP</div>
+          <div class="step-desc">Resources and setup guide will be shared after the session</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(0,0,0,.4);margin-bottom:10px;font-family:'Montserrat',sans-serif;">Demo Prompts to Try:</div>
+      <div style="background:rgba(0,0,0,.12);border-radius:14px;padding:22px 26px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.8;color:rgba(0,0,0,.7);">
+        1. "List my recent files in Google Drive"
+
+2. "Read the file 'sales-data.csv' and tell me which month had the highest total revenue"
+
+3. "Which sales rep had the best performance in Q1?"
+
+4. "Create a brief summary of the data in 3 bullets for my management team"
+
+5. "Are there any files in my Drive related to budgets or finance?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 32 — SUMMARY -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide summary-slide" data-index="32">
+  <div style="margin-bottom:32px;">
+    <div class="eyebrow eyebrow-teal">Summary</div>
+    <h3 class="slide-title-light">What You Learned Today</h3>
+  </div>
+  <div class="cols cols-2" style="gap:20px;flex:1;">
+    <div class="card-dark">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="background:var(--teal);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">1</span>
+        <div class="card-h-light">AI Fundamentals</div>
+      </div>
+      <div class="card-p-light">What AI is (and isn't) · Claude.ai vs Claude Code · The 3-part prompt formula · Your first real AI task</div>
+    </div>
+    <div class="card-dark">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="background:var(--magenta);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">2</span>
+        <div class="card-h-light">Use Cases</div>
+      </div>
+      <div class="card-p-light">LinkedIn research · Name card → VCF · Document summarisation · Sales data analysis · Presentation from notes</div>
+    </div>
+    <div class="card-dark">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="background:var(--purple);color:var(--carbon);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">3</span>
+        <div class="card-h-light">Project Management</div>
+      </div>
+      <div class="card-p-light">Claude Projects &amp; folders · Custom instructions · Automations &amp; skills · Your personal AI assistant setup</div>
+    </div>
+    <div class="card-dark">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="background:var(--olive);color:var(--carbon);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">4</span>
+        <div class="card-h-light">MCPs &amp; Connectors</div>
+      </div>
+      <div class="card-p-light">What MCPs are · Connecting Claude to Google Drive, Sheets, Gmail, Notion, Slack and more · Live demo</div>
+    </div>
+  </div>
+  <div style="margin-top:24px;padding:16px 24px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+    <p style="font-size:14px;color:rgba(255,255,255,.6);">🚀 <strong style="color:#fff;">Next step:</strong> Pick ONE use case from today. Use it daily for 7 days. Come back and tell me what changed.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 33 — Q&A / THANK YOU -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide cover" data-index="33">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div class="logo-sm">
+      <svg viewBox="0 0 102 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="wordmark-dark" width="130" height="20">
+        <path class="dot" d="M2.15386 14.4778C3.34233 14.4778 4.30577 13.4671 4.30577 12.2203C4.30577 10.9736 3.34233 9.96289 2.15386 9.96289C0.965395 9.96289 0.00195312 10.9736 0.00195312 12.2203C0.00195312 13.4671 0.965395 14.4778 2.15386 14.4778Z"/>
+        <path class="letter" d="M18.8795 9.72083L17.865 10.9065V14.3823H13.4229V0.319458H17.865V5.42204L22.269 0.319458H27.1894L21.8273 6.5071L27.4575 14.3808H22.2309L18.8795 9.72083Z"/>
+        <path class="letter" d="M33.8125 10.8459H32.5876V14.3808H28.0693V0.319458H34.5222C38.256 0.319458 40.6308 2.36819 40.6308 5.62188C40.6308 7.65137 39.7122 9.17756 38.1036 10.0406L40.9187 14.3793H36.0928L33.8139 10.8444L33.8125 10.8459ZM34.233 3.97579H32.5862V7.26945H34.233C35.4775 7.26945 36.0716 6.64625 36.0716 5.62188C36.0716 4.59752 35.4775 3.97431 34.233 3.97431V3.97579Z"/>
+        <path class="letter" d="M42.333 0.319336H46.8513V14.3807H42.333V0.319336Z"/>
+        <path class="letter" d="M62.2452 10.5039C62.2452 12.9553 60.2725 14.3808 56.5769 14.3808H49.0332V0.319458H56.1945C59.8901 0.319458 61.6131 1.86637 61.6131 3.99504C61.6131 5.30066 60.9809 6.38572 59.7561 7.02817C61.3266 7.63065 62.2452 8.83561 62.2452 10.5039ZM53.4753 3.63384V5.72254H55.5821C56.5966 5.72254 57.0566 5.36135 57.0566 4.67745C57.0566 3.99356 56.5966 3.63236 55.5821 3.63236H53.4753V3.63384ZM57.6874 9.96064C57.6874 9.23825 57.1893 8.85633 56.1945 8.85633H53.4753V11.0664H56.1945C57.1907 11.0664 57.6874 10.6845 57.6874 9.96211V9.96064Z"/>
+        <path class="letter" d="M77.047 10.5039C77.047 12.9553 75.0743 14.3808 71.3786 14.3808H63.835V0.319458H70.9962C74.6919 0.319458 76.4148 1.86637 76.4148 3.99504C76.4148 5.30066 75.7826 6.38572 74.5578 7.02817C76.1284 7.63065 77.047 8.83561 77.047 10.5039ZM68.2771 3.63384V5.72254H70.3838C71.3984 5.72254 71.8584 5.36135 71.8584 4.67745C71.8584 3.99356 71.3984 3.63236 70.3838 3.63236H68.2771V3.63384ZM72.4892 9.96064C72.4892 9.23825 71.991 8.85633 70.9962 8.85633H68.2771V11.0664H70.9962C71.9925 11.0664 72.4892 10.6845 72.4892 9.96211V9.96064Z"/>
+        <path class="letter" d="M78.6328 0.319336H83.1511V10.7051H89.2019V14.3807H78.6328V0.319336Z"/>
+        <path class="letter" d="M101.59 10.8058V14.3807H90.4453V0.319336H101.34V3.89573H94.8874V5.54331H100.556V8.95835H94.8874V10.8058H101.59Z"/>
+        <path class="letter" d="M4.67377 4.49901C4.67377 4.01643 5.09428 3.61527 6.41647 3.61527C7.58485 3.61527 8.82943 3.95722 10.1502 4.66036L11.5091 1.22459C10.1121 0.400062 8.25511 -0.00109863 6.45457 -0.00109863C2.29891 -0.00109863 0.211914 2.12757 0.211914 4.73881C0.211914 9.98203 7.62295 8.55502 7.62295 10.3225C7.62295 10.8051 7.16293 11.0863 5.88025 11.0863C5.62344 11.0863 5.36097 11.0656 5.09569 11.0375C5.22974 11.4046 5.30735 11.8028 5.30735 12.2202C5.30735 13.1632 4.92918 14.0129 4.32523 14.6154C4.82476 14.6716 5.33416 14.7027 5.84356 14.7027C9.99922 14.7027 12.0862 12.5326 12.0862 9.9613C12.0862 4.77878 4.67518 6.18506 4.67518 4.49752L4.67377 4.49901Z"/>
+      </svg>
+    </div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div class="accent-line" style="background:var(--magenta);"></div>
+    <h1 class="display" style="margin-bottom:16px;">Questions?</h1>
+    <p class="lead-light" style="max-width:480px;margin-bottom:40px;">Thank you for joining. Let's keep the conversation going.</p>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;">
+      <div style="padding:16px 24px;background:rgba(255,255,255,.08);border-radius:12px;border:1px solid rgba(255,255,255,.12);">
+        <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Trainer</div>
+        <div style="font-size:16px;font-weight:700;color:#fff;">Teng Chan Leong</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;">chanleong@skribble.me</div>
+      </div>
+      <div style="padding:16px 24px;background:rgba(255,255,255,.08);border-radius:12px;border:1px solid rgba(255,255,255,.12);">
+        <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Resources</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.7);">Slides · sales-data.csv · prompt library</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.4);margin-top:4px;">Will be shared after the session</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:auto;">
+    <p style="font-size:12px;color:rgba(255,255,255,.25);">All It Takes Is A Skribble. · skribble.me</p>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ─── NAVIGATION ─── -->
+<div id="nav">
+  <button class="nav-btn" id="prev" onclick="go(-1)">&#8592;</button>
+  <div id="slide-dots"></div>
+  <button class="nav-btn" id="next" onclick="go(1)">&#8594;</button>
+</div>
+
+<script>
+const TOTAL = 33;
+let cur = 1;
+
+const slides = document.querySelectorAll('.slide');
+const bar = document.getElementById('progress-bar');
+const counter = document.getElementById('counter');
+const dotsEl = document.getElementById('slide-dots');
+
+// Build dots (one per module section + key slides)
+const keySlides = [1,4,9,23,28,33];
+keySlides.forEach(n => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (n === 1 ? ' on' : '');
+  d.dataset.slide = n;
+  d.onclick = () => goTo(n);
+  dotsEl.appendChild(d);
+});
+
+function goTo(n) {
+  const from = cur;
+  cur = Math.max(1, Math.min(TOTAL, n));
+
+  slides.forEach(s => {
+    const idx = +s.dataset.index;
+    s.classList.remove('active','exit');
+    if (idx === cur) {
+      s.classList.add('active');
+    } else if (idx === from && from !== cur) {
+      s.classList.add('exit');
+      setTimeout(() => s.classList.remove('exit'), 400);
+    }
+  });
+
+  bar.style.width = ((cur / TOTAL) * 100) + '%';
+  counter.textContent = cur + ' / ' + TOTAL;
+
+  document.querySelectorAll('#slide-dots .dot').forEach(d => {
+    d.classList.toggle('on', +d.dataset.slide === cur ||
+      (cur >= +d.dataset.slide && cur < (+d.dataset.slide + (keySlides[keySlides.indexOf(+d.dataset.slide)+1] || TOTAL+1) - +d.dataset.slide)));
+  });
+
+  // Update dot highlight to active section
+  let activeSec = 1;
+  keySlides.forEach(k => { if (cur >= k) activeSec = k; });
+  document.querySelectorAll('#slide-dots .dot').forEach(d => {
+    d.classList.toggle('on', +d.dataset.slide === activeSec);
+  });
+}
+
+function go(dir) { goTo(cur + dir); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(-1); }
+  if (e.key === 'Home') goTo(1);
+  if (e.key === 'End') goTo(TOTAL);
+});
+
+// Touch/swipe support
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) go(dx > 0 ? 1 : -1);
+}, {passive:true});
+
+// Init
+goTo(1);
+</script>
+</body>
+</html>
