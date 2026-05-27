@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sales Dashboard — Jan–May 2025 · Two Approaches</title>
+<title>Sales Dashboard — Jan–Oct 2025 · Two Approaches</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -179,12 +179,10 @@ footer{
 }
 .info-inner{max-width:1100px;margin:0 auto;}
 
-/* hero stat */
 .info-hero{
   display:grid;grid-template-columns:1fr 1fr;gap:32px;
   align-items:center;margin-bottom:48px;
 }
-.info-hero-left{}
 .info-hero-eyebrow{
   font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
   color:var(--teal);margin-bottom:12px;
@@ -197,7 +195,6 @@ footer{
 .info-hero-label{font-size:14px;color:rgba(255,255,255,.4);margin-top:12px;letter-spacing:.04em;}
 .info-hero-right{display:flex;flex-direction:column;gap:12px;}
 
-/* mini stat pill */
 .mini-stat{
   display:flex;align-items:center;gap:16px;
   background:rgba(255,255,255,.05);border-radius:14px;padding:16px 20px;
@@ -212,7 +209,6 @@ footer{
   flex-shrink:0;
 }
 
-/* three-col blocks */
 .info-cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:32px;}
 
 .info-block{
@@ -226,7 +222,6 @@ footer{
   font-size:90px;opacity:.08;line-height:1;
 }
 
-/* region bars */
 .info-region-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
 .info-region-row:last-child{margin-bottom:0;}
 .info-region-name{font-size:12px;font-weight:700;color:#fff;width:100px;flex-shrink:0;}
@@ -235,25 +230,24 @@ footer{
 .info-region-bar-val{font-size:12px;font-weight:800;color:#fff;}
 .info-region-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.4);width:44px;text-align:right;flex-shrink:0;}
 
-/* monthly sparkline row */
 .info-months{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:32px;}
 .info-month{
   background:rgba(255,255,255,.04);border-radius:16px;padding:20px 16px;
   text-align:center;border:1px solid rgba(255,255,255,.07);
   position:relative;
 }
-.info-month.best{background:rgba(183,30,108,.15);border-color:rgba(183,30,108,.4);}
+.info-month.best{background:rgba(0,187,190,.15);border-color:rgba(0,187,190,.4);}
+.info-month.down{border-color:rgba(183,30,108,.25);}
 .info-month-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
 .info-month-val{font-size:22px;font-weight:900;color:#fff;}
 .info-month-unit{font-size:10px;color:rgba(255,255,255,.3);}
 .info-month-arrow{font-size:12px;margin-top:8px;}
 .info-best-tag{
   position:absolute;top:-10px;left:50%;transform:translateX(-50%);
-  background:var(--magenta);color:#fff;font-size:8px;font-weight:700;
+  background:var(--teal);color:#fff;font-size:8px;font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;white-space:nowrap;
 }
 
-/* insight strip */
 .info-insights{
   display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;
 }
@@ -268,7 +262,6 @@ footer{
 .info-insight-text{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
 .info-insight-text strong{color:#fff;display:block;font-size:13px;margin-bottom:3px;}
 
-/* product strip */
 .info-products{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
 .info-product{
   border-radius:16px;padding:24px;text-align:center;
@@ -282,7 +275,6 @@ footer{
 }
 .info-product-fill{height:100%;border-radius:2px;}
 
-/* watermark */
 .info-watermark{
   display:flex;align-items:center;justify-content:space-between;
   border-top:1px solid rgba(255,255,255,.08);padding-top:20px;
@@ -291,7 +283,6 @@ footer{
 .info-wm-left{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.06em;}
 .info-wm-right{font-size:10px;color:rgba(255,255,255,.15);}
 
-/* skill label banner */
 .skill-banner{
   display:flex;align-items:center;gap:10px;
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
@@ -320,7 +311,7 @@ footer{
     <div class="header-title">Sales Performance Dashboard</div>
   </div>
   <div class="header-right">
-    <div class="header-period">Jan – May 2025</div>
+    <div class="header-period">Jan – Oct 2025</div>
     <div class="header-sub">3 Regions · 3 Products · 3 Sales Reps</div>
   </div>
 </header>
@@ -350,32 +341,32 @@ footer{
     <div class="kpi">
       <div class="kpi-icon">💰</div>
       <div class="kpi-label">Total Revenue</div>
-      <div class="kpi-value">RM 972K</div>
-      <div class="kpi-sub">Jan–May 2025</div>
+      <div class="kpi-value">RM 3.03M</div>
+      <div class="kpi-sub">Jan–Oct 2025</div>
     </div>
     <div class="kpi teal">
       <div class="kpi-icon">📦</div>
       <div class="kpi-label">Total Units Sold</div>
-      <div class="kpi-value">248</div>
+      <div class="kpi-value">874</div>
       <div class="kpi-sub">Across all products</div>
     </div>
     <div class="kpi purple">
       <div class="kpi-icon">📍</div>
       <div class="kpi-label">Top Region</div>
       <div class="kpi-value" style="font-size:20px;padding-top:4px;">Kuala Lumpur</div>
-      <div class="kpi-sub">RM 416,000 · 42.8%</div>
+      <div class="kpi-sub">RM 1,147K · 37.9%</div>
     </div>
     <div class="kpi olive">
       <div class="kpi-icon">🏆</div>
       <div class="kpi-label">Top Sales Rep</div>
       <div class="kpi-value" style="font-size:18px;padding-top:6px;">Ahmad Riza</div>
-      <div class="kpi-sub">RM 416,000 · 108 units</div>
+      <div class="kpi-sub">RM 1,147K · 352 units</div>
     </div>
     <div class="kpi yellow">
       <div class="kpi-icon">📅</div>
       <div class="kpi-label">Best Month</div>
-      <div class="kpi-value" style="font-size:24px;padding-top:4px;">May 2025</div>
-      <div class="kpi-sub">RM 243,000 revenue</div>
+      <div class="kpi-value" style="font-size:24px;padding-top:4px;">Jul 2025</div>
+      <div class="kpi-sub">RM 555,810 revenue</div>
     </div>
   </div>
 
@@ -383,7 +374,7 @@ footer{
   <div class="grid-32">
     <div class="panel">
       <div class="panel-title">Revenue Trend</div>
-      <div class="panel-heading">Monthly Revenue — Jan to May 2025</div>
+      <div class="panel-heading">Monthly Revenue — Jan to Oct 2025</div>
       <div class="chart-wrap" style="height:240px;">
         <canvas id="monthlyChart"></canvas>
       </div>
@@ -422,8 +413,8 @@ footer{
           </div>
         </div>
         <div>
-          <div class="rep-revenue">RM 416K</div>
-          <div class="rep-pct">42.8%</div>
+          <div class="rep-revenue">RM 1,147K</div>
+          <div class="rep-pct">37.9%</div>
         </div>
       </div>
 
@@ -435,12 +426,12 @@ footer{
         </div>
         <div class="rep-bar-wrap">
           <div class="rep-bar-bg">
-            <div class="rep-bar" style="width:71.9%;background:var(--teal);"></div>
+            <div class="rep-bar" style="width:88.8%;background:var(--teal);"></div>
           </div>
         </div>
         <div>
-          <div class="rep-revenue">RM 299K</div>
-          <div class="rep-pct">30.8%</div>
+          <div class="rep-revenue">RM 1,019K</div>
+          <div class="rep-pct">33.6%</div>
         </div>
       </div>
 
@@ -452,12 +443,12 @@ footer{
         </div>
         <div class="rep-bar-wrap">
           <div class="rep-bar-bg">
-            <div class="rep-bar" style="width:61.8%;background:var(--purple);"></div>
+            <div class="rep-bar" style="width:75.1%;background:var(--purple);"></div>
           </div>
         </div>
         <div>
-          <div class="rep-revenue">RM 257K</div>
-          <div class="rep-pct">26.4%</div>
+          <div class="rep-revenue">RM 862K</div>
+          <div class="rep-pct">28.5%</div>
         </div>
       </div>
 
@@ -480,47 +471,22 @@ footer{
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Jan 2025</strong></td>
-            <td>61,000</td>
-            <td>48,000</td>
-            <td>47,000</td>
-            <td>156,000</td>
-          </tr>
-          <tr>
-            <td><strong>Feb 2025</strong></td>
-            <td>73,000</td>
-            <td>63,000</td>
-            <td>38,000</td>
-            <td>174,000</td>
-          </tr>
-          <tr>
-            <td><strong>Mar 2025</strong></td>
-            <td>89,000</td>
-            <td>65,000</td>
-            <td>63,000</td>
-            <td>217,000</td>
-          </tr>
-          <tr>
-            <td><strong>Apr 2025</strong></td>
-            <td>84,000</td>
-            <td>44,000</td>
-            <td>54,000</td>
-            <td>182,000</td>
-          </tr>
-          <tr>
-            <td><strong>May 2025</strong></td>
-            <td>109,000</td>
-            <td>79,000</td>
-            <td>55,000</td>
-            <td>243,000</td>
-          </tr>
+          <tr><td><strong>Jan 2025</strong></td><td>61,000</td><td>48,000</td><td>47,000</td><td>156,000</td></tr>
+          <tr><td><strong>Feb 2025</strong></td><td>73,000</td><td>63,000</td><td>38,000</td><td>174,000</td></tr>
+          <tr><td><strong>Mar 2025</strong></td><td>89,000</td><td>65,000</td><td>63,000</td><td>217,000</td></tr>
+          <tr><td><strong>Apr 2025</strong></td><td>84,000</td><td>44,000</td><td>54,000</td><td>182,000</td></tr>
+          <tr><td><strong>May 2025</strong></td><td>109,000</td><td>79,000</td><td>55,000</td><td>243,000</td></tr>
+          <tr><td><strong>Jun 2025</strong></td><td>95,988</td><td>124,627</td><td>84,331</td><td>304,946</td></tr>
+          <tr><td><strong>Jul 2025</strong></td><td>181,251</td><td>189,960</td><td>184,599</td><td>555,810</td></tr>
+          <tr><td><strong>Aug 2025</strong></td><td>169,152</td><td>141,988</td><td>52,076</td><td>363,216</td></tr>
+          <tr><td><strong>Sep 2025</strong></td><td>184,001</td><td>125,085</td><td>191,900</td><td>500,986</td></tr>
+          <tr><td><strong>Oct 2025</strong></td><td>100,434</td><td>137,889</td><td>91,945</td><td>330,268</td></tr>
           <tr class="total-row">
             <td><strong>Total</strong></td>
-            <td><strong>416,000</strong></td>
-            <td><strong>299,000</strong></td>
-            <td><strong>257,000</strong></td>
-            <td><strong>972,000</strong></td>
+            <td><strong>1,146,826</strong></td>
+            <td><strong>1,018,549</strong></td>
+            <td><strong>861,851</strong></td>
+            <td><strong>3,027,226</strong></td>
           </tr>
         </tbody>
       </table>
@@ -532,27 +498,26 @@ footer{
 
       <div class="insight-item">
         <div class="insight-dot"></div>
-        <div class="insight-text"><strong>Ahmad Riza is your top performer</strong> — generating RM 416K (42.8% of total revenue) across 108 units. KL is the strongest region by a significant margin.</div>
+        <div class="insight-text"><strong>July was the breakout month at RM 556K</strong> — more than 2× May's record. All three regions hit their peaks simultaneously. Investigate what drove the July surge and replicate it.</div>
       </div>
       <div class="insight-item">
         <div class="insight-dot"></div>
-        <div class="insight-text"><strong>Revenue is growing every month.</strong> May hit RM 243K — a 56% jump from January's RM 156K. The upward trend is consistent across all three regions.</div>
+        <div class="insight-text"><strong>Ahmad Riza leads at RM 1.15M (37.9%)</strong> but Penang and JB grew faster in Q3, closing the gap. Kevin Tan even outpaced Ahmad Riza in September (RM 192K vs RM 184K).</div>
       </div>
       <div class="insight-item">
         <div class="insight-dot"></div>
-        <div class="insight-text"><strong>Digital Marketing Package drives the business</strong> at RM 504K (51.9% of revenue). Branding and Web Dev are close in second at RM 230K and RM 238K.</div>
+        <div class="insight-text"><strong>Revenue is volatile in H2.</strong> After July's peak, August dropped 34.7% (JB collapsed to RM 52K). September recovered strongly. Month-to-month swings need investigation.</div>
       </div>
       <div class="insight-item">
         <div class="insight-dot"></div>
-        <div class="insight-text"><strong>JB dipped in February</strong> (RM 38K vs RM 47K in Jan) but recovered strongly. Worth investigating what caused the dip and replicating the recovery strategy.</div>
+        <div class="insight-text"><strong>Web Development surged in July (RM 193K) and September (RM 194K)</strong> — nearly matching Digital Marketing. A strong project pipeline is developing outside the core product.</div>
       </div>
     </div>
   </div>
 
 </main>
 
-<footer>Generated with Claude Code · <strong>data-analyst</strong> skill · Sales data: Jan–May 2025 · AI for Non-Technical Executives — Skribble Training</footer>
-</main>
+<footer>Generated with Claude Code · <strong>data-analyst</strong> skill · Sales data: Jan–Oct 2025 · AI for Non-Technical Executives — Skribble Training</footer>
 </div><!-- /page-dashboard -->
 
 <!-- PAGE 2: VISUAL-ASSET-GENERATOR INFOGRAPHIC -->
@@ -561,7 +526,6 @@ footer{
 <section style="background:var(--carbon);min-height:100vh;padding:48px 40px;">
 <div class="info-inner">
 
-  <!-- skill badge -->
   <div class="skill-banner">
     <div class="skill-banner-dot" style="background:var(--magenta);"></div>
     <span class="skill-banner-text">Generated with</span>
@@ -572,54 +536,64 @@ footer{
   <!-- HERO -->
   <div class="info-hero">
     <div class="info-hero-left">
-      <div class="info-hero-eyebrow">Total Revenue · Jan–May 2025</div>
+      <div class="info-hero-eyebrow">Total Revenue · Jan–Oct 2025</div>
       <div class="info-hero-num">
-        972<span class="info-hero-unit">K</span>
+        3.03<span class="info-hero-unit">M</span>
       </div>
-      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;letter-spacing:.04em;">Malaysian Ringgit · 5 months · 3 regions</div>
-      <!-- mini bar chart as SVG -->
-      <svg viewBox="0 0 300 60" style="width:100%;max-width:300px;margin-top:20px;" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0"   y="40" width="44" height="20" rx="4" fill="#B71E6C" opacity=".9"/>
-        <rect x="52"  y="34" width="44" height="26" rx="4" fill="#B71E6C" opacity=".75"/>
-        <rect x="104" y="20" width="44" height="40" rx="4" fill="#B71E6C"/>
-        <rect x="156" y="28" width="44" height="32" rx="4" fill="#B71E6C" opacity=".85"/>
-        <rect x="208" y="4"  width="44" height="56" rx="4" fill="#00BBBE"/>
-        <text x="22"  y="56" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Jan</text>
-        <text x="74"  y="56" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Feb</text>
-        <text x="126" y="56" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Mar</text>
-        <text x="178" y="56" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Apr</text>
-        <text x="230" y="56" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">May ↑</text>
+      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;letter-spacing:.04em;">Malaysian Ringgit · 10 months · 3 regions</div>
+      <!-- 10-bar sparkline -->
+      <svg viewBox="0 0 502 68" style="width:100%;max-width:502px;margin-top:20px;" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0"   y="45" width="34" height="15" rx="3" fill="#B71E6C" opacity=".65"/>
+        <rect x="50"  y="44" width="34" height="16" rx="3" fill="#B71E6C" opacity=".7"/>
+        <rect x="100" y="40" width="34" height="20" rx="3" fill="#B71E6C" opacity=".75"/>
+        <rect x="150" y="43" width="34" height="17" rx="3" fill="#B71E6C" opacity=".7"/>
+        <rect x="200" y="37" width="34" height="23" rx="3" fill="#B71E6C" opacity=".8"/>
+        <rect x="250" y="31" width="34" height="29" rx="3" fill="#B71E6C" opacity=".85"/>
+        <rect x="300" y="8"  width="34" height="52" rx="3" fill="#00BBBE"/>
+        <rect x="350" y="26" width="34" height="34" rx="3" fill="#B71E6C" opacity=".8"/>
+        <rect x="400" y="13" width="34" height="47" rx="3" fill="#B71E6C" opacity=".9"/>
+        <rect x="450" y="29" width="34" height="31" rx="3" fill="#B71E6C" opacity=".75"/>
+        <text x="17"  y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Jan</text>
+        <text x="67"  y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Feb</text>
+        <text x="117" y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Mar</text>
+        <text x="167" y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Apr</text>
+        <text x="217" y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">May</text>
+        <text x="267" y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Jun</text>
+        <text x="317" y="66" text-anchor="middle" fill="rgba(255,255,255,.9)"  font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Jul ↑</text>
+        <text x="367" y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Aug</text>
+        <text x="417" y="66" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Sep</text>
+        <text x="467" y="66" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="8" font-family="Montserrat,sans-serif" font-weight="700">Oct</text>
       </svg>
     </div>
     <div class="info-hero-right">
       <div class="mini-stat">
         <div class="mini-stat-icon">📦</div>
         <div class="mini-stat-body">
-          <div class="mini-stat-val">248 units</div>
+          <div class="mini-stat-val">874 units</div>
           <div class="mini-stat-lbl">Total Units Sold</div>
         </div>
-        <div class="mini-stat-badge" style="background:rgba(0,187,190,.15);color:var(--teal);">+56% May vs Jan</div>
+        <div class="mini-stat-badge" style="background:rgba(0,187,190,.15);color:var(--teal);">+112% Jan→Oct</div>
       </div>
       <div class="mini-stat">
         <div class="mini-stat-icon">🏙</div>
         <div class="mini-stat-body">
           <div class="mini-stat-val">Kuala Lumpur</div>
-          <div class="mini-stat-lbl">Top Region · RM 416K</div>
+          <div class="mini-stat-lbl">Top Region · RM 1,147K</div>
         </div>
-        <div class="mini-stat-badge" style="background:rgba(183,30,108,.15);color:var(--soft-pink);">42.8%</div>
+        <div class="mini-stat-badge" style="background:rgba(183,30,108,.15);color:var(--soft-pink);">37.9%</div>
       </div>
       <div class="mini-stat">
         <div class="mini-stat-icon">🏆</div>
         <div class="mini-stat-body">
           <div class="mini-stat-val">Ahmad Riza</div>
-          <div class="mini-stat-lbl">Top Sales Rep · 108 units</div>
+          <div class="mini-stat-lbl">Top Sales Rep · 352 units</div>
         </div>
         <div class="mini-stat-badge" style="background:rgba(187,189,84,.15);color:var(--olive);">#1 Rep</div>
       </div>
     </div>
   </div>
 
-  <!-- MONTHLY TILES -->
+  <!-- MONTHLY TILES (10 months, 2 rows of 5) -->
   <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;">Monthly Revenue Breakdown</div>
   <div class="info-months">
     <div class="info-month">
@@ -640,18 +614,48 @@ footer{
       <div class="info-month-unit">MYR</div>
       <div class="info-month-arrow" style="color:var(--teal);">↑ +24.7%</div>
     </div>
-    <div class="info-month">
+    <div class="info-month down">
       <div class="info-month-label">April</div>
       <div class="info-month-val">182K</div>
       <div class="info-month-unit">MYR</div>
       <div class="info-month-arrow" style="color:var(--magenta);">↓ −16.1%</div>
     </div>
-    <div class="info-month best">
-      <div class="info-best-tag">Best Month</div>
+    <div class="info-month">
       <div class="info-month-label">May</div>
-      <div class="info-month-val" style="color:var(--teal);">243K</div>
+      <div class="info-month-val">243K</div>
       <div class="info-month-unit">MYR</div>
       <div class="info-month-arrow" style="color:var(--teal);">↑ +33.5%</div>
+    </div>
+    <div class="info-month">
+      <div class="info-month-label">June</div>
+      <div class="info-month-val">305K</div>
+      <div class="info-month-unit">MYR</div>
+      <div class="info-month-arrow" style="color:var(--teal);">↑ +25.5%</div>
+    </div>
+    <div class="info-month best">
+      <div class="info-best-tag">Best Month</div>
+      <div class="info-month-label">July</div>
+      <div class="info-month-val" style="color:var(--teal);">556K</div>
+      <div class="info-month-unit">MYR</div>
+      <div class="info-month-arrow" style="color:var(--teal);">↑ +82.3%</div>
+    </div>
+    <div class="info-month down">
+      <div class="info-month-label">August</div>
+      <div class="info-month-val">363K</div>
+      <div class="info-month-unit">MYR</div>
+      <div class="info-month-arrow" style="color:var(--magenta);">↓ −34.7%</div>
+    </div>
+    <div class="info-month">
+      <div class="info-month-label">September</div>
+      <div class="info-month-val">501K</div>
+      <div class="info-month-unit">MYR</div>
+      <div class="info-month-arrow" style="color:var(--teal);">↑ +37.9%</div>
+    </div>
+    <div class="info-month down">
+      <div class="info-month-label">October</div>
+      <div class="info-month-val">330K</div>
+      <div class="info-month-unit">MYR</div>
+      <div class="info-month-arrow" style="color:var(--magenta);">↓ −34.1%</div>
     </div>
   </div>
 
@@ -662,28 +666,28 @@ footer{
       <div class="info-region-name">Kuala Lumpur</div>
       <div class="info-region-bar-wrap">
         <div class="info-region-bar" style="width:100%;background:linear-gradient(90deg,var(--magenta),rgba(183,30,108,.5));">
-          <span class="info-region-bar-val">RM 416,000</span>
+          <span class="info-region-bar-val">RM 1,146,826</span>
         </div>
       </div>
-      <div class="info-region-pct">42.8%</div>
+      <div class="info-region-pct">37.9%</div>
     </div>
     <div class="info-region-row">
       <div class="info-region-name">Penang</div>
       <div class="info-region-bar-wrap">
-        <div class="info-region-bar" style="width:71.9%;background:linear-gradient(90deg,var(--teal),rgba(0,187,190,.5));">
-          <span class="info-region-bar-val">RM 299,000</span>
+        <div class="info-region-bar" style="width:88.8%;background:linear-gradient(90deg,var(--teal),rgba(0,187,190,.5));">
+          <span class="info-region-bar-val">RM 1,018,549</span>
         </div>
       </div>
-      <div class="info-region-pct">30.8%</div>
+      <div class="info-region-pct">33.6%</div>
     </div>
     <div class="info-region-row" style="margin-bottom:0;">
       <div class="info-region-name">Johor Bahru</div>
       <div class="info-region-bar-wrap">
-        <div class="info-region-bar" style="width:61.8%;background:linear-gradient(90deg,var(--purple),rgba(189,161,213,.5));">
-          <span class="info-region-bar-val">RM 257,000</span>
+        <div class="info-region-bar" style="width:75.1%;background:linear-gradient(90deg,var(--purple),rgba(189,161,213,.5));">
+          <span class="info-region-bar-val">RM 861,851</span>
         </div>
       </div>
-      <div class="info-region-pct">26.4%</div>
+      <div class="info-region-pct">28.5%</div>
     </div>
   </div>
 
@@ -695,23 +699,23 @@ footer{
         <div class="info-product">
           <div class="info-product-icon">📣</div>
           <div class="info-product-name">Digital Marketing</div>
-          <div class="info-product-val" style="color:var(--magenta);">RM 504K</div>
+          <div class="info-product-val" style="color:var(--magenta);">RM 1,581K</div>
           <div class="info-product-share"><div class="info-product-fill" style="width:100%;background:var(--magenta);"></div></div>
-          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;">51.9% of revenue</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;">52.2% of revenue</div>
         </div>
         <div class="info-product">
           <div class="info-product-icon">💻</div>
           <div class="info-product-name">Web Development</div>
-          <div class="info-product-val" style="color:var(--teal);">RM 238K</div>
-          <div class="info-product-share"><div class="info-product-fill" style="width:47%;background:var(--teal);"></div></div>
-          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;">24.5% of revenue</div>
+          <div class="info-product-val" style="color:var(--teal);">RM 826K</div>
+          <div class="info-product-share"><div class="info-product-fill" style="width:52.3%;background:var(--teal);"></div></div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;">27.3% of revenue</div>
         </div>
         <div class="info-product">
           <div class="info-product-icon">🎨</div>
           <div class="info-product-name">Branding Package</div>
-          <div class="info-product-val" style="color:var(--purple);">RM 230K</div>
-          <div class="info-product-share"><div class="info-product-fill" style="width:45.6%;background:var(--purple);"></div></div>
-          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;">23.7% of revenue</div>
+          <div class="info-product-val" style="color:var(--purple);">RM 621K</div>
+          <div class="info-product-share"><div class="info-product-fill" style="width:39.3%;background:var(--purple);"></div></div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;">20.5% of revenue</div>
         </div>
       </div>
     </div>
@@ -719,20 +723,20 @@ footer{
       <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;">Rep Leaderboard</div>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div class="info-block" style="background:rgba(183,30,108,.15);border:1px solid rgba(183,30,108,.3);">
-          <div class="info-block-num" style="color:var(--magenta);">416K</div>
+          <div class="info-block-num" style="color:var(--magenta);">1,147K</div>
           <div class="info-block-sub">MYR</div>
-          <div class="info-block-label" style="color:#fff;">🥇 Ahmad Riza<br><span style="color:rgba(255,255,255,.4);font-size:11px;">Kuala Lumpur · 108 units</span></div>
+          <div class="info-block-label" style="color:#fff;">🥇 Ahmad Riza<br><span style="color:rgba(255,255,255,.4);font-size:11px;">Kuala Lumpur · 352 units</span></div>
           <div class="info-block-accent">1</div>
         </div>
         <div class="info-block" style="background:rgba(0,187,190,.1);border:1px solid rgba(0,187,190,.2);">
-          <div class="info-block-num" style="color:var(--teal);font-size:32px;">299K</div>
+          <div class="info-block-num" style="color:var(--teal);font-size:32px;">1,019K</div>
           <div class="info-block-sub">MYR</div>
-          <div class="info-block-label" style="color:#fff;">🥈 Siti Naziha<br><span style="color:rgba(255,255,255,.4);font-size:11px;">Penang · 77 units</span></div>
+          <div class="info-block-label" style="color:#fff;">🥈 Siti Naziha<br><span style="color:rgba(255,255,255,.4);font-size:11px;">Penang · 265 units</span></div>
         </div>
         <div class="info-block" style="background:rgba(189,161,213,.1);border:1px solid rgba(189,161,213,.2);">
-          <div class="info-block-num" style="color:var(--purple);font-size:32px;">257K</div>
+          <div class="info-block-num" style="color:var(--purple);font-size:32px;">862K</div>
           <div class="info-block-sub">MYR</div>
-          <div class="info-block-label" style="color:#fff;">🥉 Kevin Tan<br><span style="color:rgba(255,255,255,.4);font-size:11px;">Johor Bahru · 63 units</span></div>
+          <div class="info-block-label" style="color:#fff;">🥉 Kevin Tan<br><span style="color:rgba(255,255,255,.4);font-size:11px;">Johor Bahru · 257 units</span></div>
         </div>
       </div>
     </div>
@@ -744,36 +748,36 @@ footer{
     <div class="info-insight">
       <div class="info-insight-num">01</div>
       <div class="info-insight-text">
-        <strong>Ahmad Riza leads by a wide margin</strong>
-        Generating 42.8% of total revenue despite covering only one region — KL's market density gives him a structural advantage worth replicating.
+        <strong>July was a 10-month record at RM 556K</strong>
+        All three reps hit their highest individual months simultaneously. It's 3.6× January. Understanding what aligned in July is the most valuable question in this dataset.
       </div>
     </div>
     <div class="info-insight">
       <div class="info-insight-num">02</div>
       <div class="info-insight-text">
-        <strong>May was a breakthrough month</strong>
-        RM 243K — 56% higher than January. All three reps hit their best numbers. Investigate what drove this and build it into June's playbook.
+        <strong>Kevin Tan outperformed Ahmad Riza in September</strong>
+        JB hit RM 191,900 vs KL's RM 184,001 — Kevin Tan's best-ever month. The regional ranking is no longer a foregone conclusion.
       </div>
     </div>
     <div class="info-insight">
       <div class="info-insight-num">03</div>
       <div class="info-insight-text">
-        <strong>Digital Marketing dominates at 52%</strong>
-        Web Dev and Branding are nearly neck-and-neck at 24% and 24%. Consider whether to double down on Digital Mktg or grow the other two.
+        <strong>Web Dev is the fastest-growing product</strong>
+        From RM 21K (Jan) to RM 194K (Sep) — a 9× increase. It nearly matched Digital Marketing in July and September. A project pipeline is clearly forming.
       </div>
     </div>
     <div class="info-insight">
       <div class="info-insight-num">04</div>
       <div class="info-insight-text">
-        <strong>JB dipped in February, then recovered</strong>
-        Kevin Tan dropped to RM 38K in Feb (the only rep to decline). The March recovery to RM 63K suggests it was a one-off. Worth flagging.
+        <strong>Revenue volatility is the key risk</strong>
+        August dropped 34.7% after July's peak; October dropped 34.1% after September. The peaks are high but the troughs are deep — pipeline consistency is the next challenge.
       </div>
     </div>
   </div>
 
   <!-- WATERMARK -->
   <div class="info-watermark">
-    <div class="info-wm-left">AI for Non-Technical Executives · Skribble Training · 27 May 2025</div>
+    <div class="info-wm-left">AI for Non-Technical Executives · Skribble Training · 27 May 2026</div>
     <div class="info-wm-right">Generated with Claude Code · visual-asset-generator skill</div>
   </div>
 
@@ -785,11 +789,8 @@ footer{
 <!-- PAGE 3: EXECUTIVE SUMMARY -->
 <div id="page-summary" class="page">
 <style>
-/* ── SUMMARY PAGE STYLES ── */
 #page-summary{background:#f8f6f3;min-height:100vh;padding:48px 40px;}
 .sum-inner{max-width:1000px;margin:0 auto;}
-
-/* report header */
 .sum-report-header{
   display:flex;align-items:flex-start;justify-content:space-between;
   padding-bottom:24px;border-bottom:2px solid var(--carbon);margin-bottom:40px;
@@ -799,8 +800,6 @@ footer{
 .sum-report-meta{text-align:right;}
 .sum-report-period{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);}
 .sum-report-date{font-size:11px;color:#aaa;margin-top:4px;}
-
-/* section */
 .sum-section{margin-bottom:48px;}
 .sum-section-header{
   display:flex;align-items:center;gap:14px;
@@ -814,8 +813,6 @@ footer{
 }
 .sum-section-title{font-size:18px;font-weight:800;color:var(--carbon);}
 .sum-section-desc{font-size:12px;color:#999;margin-top:2px;}
-
-/* overall: big kpi strip */
 .sum-kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
 .sum-kpi{
   background:#fff;border-radius:14px;padding:20px 22px;
@@ -824,8 +821,6 @@ footer{
 .sum-kpi-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
 .sum-kpi-val{font-size:24px;font-weight:900;color:var(--carbon);line-height:1;}
 .sum-kpi-sub{font-size:11px;color:#aaa;margin-top:5px;}
-
-/* trend table inline */
 .sum-trend{
   background:#fff;border-radius:14px;padding:24px;
   box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
@@ -833,9 +828,9 @@ footer{
 }
 .sum-trend-title{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#bbb;margin-bottom:16px;}
 .sum-trend-row{
-  display:grid;grid-template-columns:80px 1fr 80px 70px;
+  display:grid;grid-template-columns:80px 1fr 90px 70px;
   align-items:center;gap:12px;
-  padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05);
+  padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);
 }
 .sum-trend-row:last-child{border-bottom:none;}
 .sum-trend-month{font-size:12px;font-weight:700;color:var(--carbon);}
@@ -843,8 +838,6 @@ footer{
 .sum-trend-bar{height:100%;border-radius:5px;}
 .sum-trend-val{font-size:13px;font-weight:800;color:var(--carbon);text-align:right;}
 .sum-trend-change{font-size:10px;font-weight:700;text-align:right;}
-
-/* insight callouts */
 .sum-insights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0;}
 .sum-insight{
   padding:16px 18px;border-radius:12px;
@@ -853,20 +846,13 @@ footer{
 .sum-insight-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
 .sum-insight-text{font-size:13px;color:var(--carbon);line-height:1.55;}
 .sum-insight-text strong{color:var(--magenta);}
-
-/* region section */
 .sum-region-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
 .sum-region-card{
   background:#fff;border-radius:14px;padding:24px;
   box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
   position:relative;overflow:hidden;
 }
-.sum-region-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;
-}
-.sum-region-rank{
-  font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#ccc;margin-bottom:10px;
-}
+.sum-region-rank{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#ccc;margin-bottom:10px;}
 .sum-region-name{font-size:18px;font-weight:900;color:var(--carbon);margin-bottom:4px;}
 .sum-region-rev{font-size:28px;font-weight:900;line-height:1;margin-bottom:10px;}
 .sum-region-share-bar{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;margin-bottom:10px;}
@@ -878,19 +864,17 @@ footer{
 .sum-region-breakdown{margin-top:12px;}
 .sum-region-breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px;color:#777;}
 .sum-region-breakdown-row span:last-child{font-weight:700;color:var(--carbon);}
-
-/* rep section */
 .sum-rep-table{
   background:#fff;border-radius:14px;overflow:hidden;
   box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
 }
 .sum-rep-table-head{
-  display:grid;grid-template-columns:40px 1fr 110px 110px 110px 90px;
+  display:grid;grid-template-columns:40px 1fr 130px 80px 110px 80px;
   gap:0;background:var(--carbon);padding:10px 20px;
   font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);
 }
 .sum-rep-row{
-  display:grid;grid-template-columns:40px 1fr 110px 110px 110px 90px;
+  display:grid;grid-template-columns:40px 1fr 130px 80px 110px 80px;
   gap:0;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,.05);
   align-items:center;
 }
@@ -901,11 +885,8 @@ footer{
 .sum-rep-info-region{font-size:11px;color:#aaa;margin-top:1px;}
 .sum-rep-cell{font-size:14px;font-weight:700;color:var(--carbon);}
 .sum-rep-cell-sub{font-size:10px;color:#aaa;margin-top:2px;}
-.sum-rep-bar-cell{padding-right:8px;}
 .sum-rep-pct-bar{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;margin-top:4px;}
 .sum-rep-pct-fill{height:100%;border-radius:3px;}
-
-/* monthly by rep matrix */
 .sum-matrix{
   background:#fff;border-radius:14px;overflow:hidden;
   box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
@@ -922,8 +903,6 @@ footer{
 .sum-matrix td:not(:first-child){text-align:right;font-weight:600;color:var(--carbon);}
 .sum-matrix tr:last-child td{border-bottom:none;background:rgba(0,187,190,.05);font-weight:800;color:var(--carbon);}
 .sum-matrix .best-cell{color:var(--teal) !important;}
-
-/* product section */
 .sum-product-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
 .sum-product-card{
   background:#fff;border-radius:14px;padding:24px;
@@ -939,8 +918,6 @@ footer{
 .sum-product-monthly-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:8px;}
 .sum-product-monthly-row{display:flex;justify-content:space-between;font-size:11px;color:#888;padding:2px 0;}
 .sum-product-monthly-row span:last-child{font-weight:700;color:var(--carbon);}
-
-/* report footer */
 .sum-footer{
   border-top:1px solid rgba(0,0,0,.1);padding-top:20px;margin-top:8px;
   display:flex;justify-content:space-between;align-items:center;
@@ -952,14 +929,13 @@ footer{
 <div id="page-summary-inner" style="background:#f8f6f3;min-height:100vh;padding:48px 40px;">
 <div class="sum-inner">
 
-  <!-- REPORT HEADER -->
   <div class="sum-report-header">
     <div>
       <div class="sum-report-title">Sales Performance Report</div>
       <div class="sum-report-sub">Skribble · Kuala Lumpur · Penang · Johor Bahru</div>
     </div>
     <div class="sum-report-meta">
-      <div class="sum-report-period">Jan – May 2025</div>
+      <div class="sum-report-period">Jan – Oct 2025</div>
       <div class="sum-report-date">3 reps · 3 regions · 3 products</div>
     </div>
   </div>
@@ -970,30 +946,30 @@ footer{
       <div class="sum-section-num" style="background:var(--magenta);color:#fff;">1</div>
       <div>
         <div class="sum-section-title">Overall Revenue &amp; Insights</div>
-        <div class="sum-section-desc">Company-wide performance summary, Jan–May 2025</div>
+        <div class="sum-section-desc">Company-wide performance summary, Jan–Oct 2025</div>
       </div>
     </div>
 
     <div class="sum-kpi-strip">
       <div class="sum-kpi">
         <div class="sum-kpi-label">Total Revenue</div>
-        <div class="sum-kpi-val" style="color:var(--magenta);">RM 972,000</div>
-        <div class="sum-kpi-sub">Jan–May 2025 · 5 months</div>
+        <div class="sum-kpi-val" style="color:var(--magenta);">RM 3,027,226</div>
+        <div class="sum-kpi-sub">Jan–Oct 2025 · 10 months</div>
       </div>
       <div class="sum-kpi">
         <div class="sum-kpi-label">Total Units Sold</div>
-        <div class="sum-kpi-val">248</div>
+        <div class="sum-kpi-val">874</div>
         <div class="sum-kpi-sub">Across all products</div>
       </div>
       <div class="sum-kpi">
         <div class="sum-kpi-label">Monthly Average</div>
-        <div class="sum-kpi-val">RM 194,400</div>
-        <div class="sum-kpi-sub">Per month</div>
+        <div class="sum-kpi-val">RM 302,723</div>
+        <div class="sum-kpi-sub">Per month · 10-month avg</div>
       </div>
       <div class="sum-kpi">
         <div class="sum-kpi-label">Revenue Growth</div>
-        <div class="sum-kpi-val" style="color:var(--teal);">+55.8%</div>
-        <div class="sum-kpi-sub">Jan → May (156K → 243K)</div>
+        <div class="sum-kpi-val" style="color:var(--teal);">+111.7%</div>
+        <div class="sum-kpi-sub">Jan → Oct (156K → 330K)</div>
       </div>
     </div>
 
@@ -1001,52 +977,82 @@ footer{
       <div class="sum-trend-title">Monthly Revenue Trend</div>
       <div class="sum-trend-row">
         <div class="sum-trend-month">January</div>
-        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:64.2%;background:var(--magenta);opacity:.5;"></div></div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:28.1%;background:var(--magenta);opacity:.45;"></div></div>
         <div class="sum-trend-val">RM 156,000</div>
         <div class="sum-trend-change" style="color:#aaa;">—</div>
       </div>
       <div class="sum-trend-row">
         <div class="sum-trend-month">February</div>
-        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:71.6%;background:var(--magenta);opacity:.6;"></div></div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:31.3%;background:var(--magenta);opacity:.5;"></div></div>
         <div class="sum-trend-val">RM 174,000</div>
         <div class="sum-trend-change" style="color:var(--teal);">↑ +11.5%</div>
       </div>
       <div class="sum-trend-row">
         <div class="sum-trend-month">March</div>
-        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:89.3%;background:var(--magenta);opacity:.8;"></div></div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:39.0%;background:var(--magenta);opacity:.55;"></div></div>
         <div class="sum-trend-val">RM 217,000</div>
         <div class="sum-trend-change" style="color:var(--teal);">↑ +24.7%</div>
       </div>
       <div class="sum-trend-row">
         <div class="sum-trend-month">April</div>
-        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:74.9%;background:var(--magenta);opacity:.7;"></div></div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:32.7%;background:var(--magenta);opacity:.5;"></div></div>
         <div class="sum-trend-val">RM 182,000</div>
         <div class="sum-trend-change" style="color:#e05;">↓ −16.1%</div>
       </div>
       <div class="sum-trend-row">
         <div class="sum-trend-month">May</div>
-        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:100%;background:var(--teal);"></div></div>
-        <div class="sum-trend-val" style="color:var(--teal);font-size:14px;">RM 243,000</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:43.7%;background:var(--magenta);opacity:.65;"></div></div>
+        <div class="sum-trend-val">RM 243,000</div>
         <div class="sum-trend-change" style="color:var(--teal);">↑ +33.5%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">June</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:54.9%;background:var(--magenta);opacity:.75;"></div></div>
+        <div class="sum-trend-val">RM 304,946</div>
+        <div class="sum-trend-change" style="color:var(--teal);">↑ +25.5%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">July</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:100%;background:var(--teal);"></div></div>
+        <div class="sum-trend-val" style="color:var(--teal);font-size:14px;">RM 555,810</div>
+        <div class="sum-trend-change" style="color:var(--teal);">↑ +82.3%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">August</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:65.3%;background:var(--magenta);opacity:.75;"></div></div>
+        <div class="sum-trend-val">RM 363,216</div>
+        <div class="sum-trend-change" style="color:#e05;">↓ −34.7%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">September</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:90.1%;background:var(--magenta);opacity:.9;"></div></div>
+        <div class="sum-trend-val">RM 500,986</div>
+        <div class="sum-trend-change" style="color:var(--teal);">↑ +37.9%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">October</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:59.4%;background:var(--magenta);opacity:.7;"></div></div>
+        <div class="sum-trend-val">RM 330,268</div>
+        <div class="sum-trend-change" style="color:#e05;">↓ −34.1%</div>
       </div>
     </div>
 
     <div class="sum-insights">
       <div class="sum-insight">
         <div class="sum-insight-label">Growth Trend</div>
-        <div class="sum-insight-text">Revenue grew <strong>55.8%</strong> from Jan to May. The only dip was April (−16%), but May fully reversed it and hit a new high.</div>
+        <div class="sum-insight-text">Revenue grew <strong>+111.7%</strong> from Jan to Oct. July at RM 556K is 3.6× January. Despite volatility, the 10-month trajectory is strongly upward.</div>
       </div>
       <div class="sum-insight">
         <div class="sum-insight-label">Best Month</div>
-        <div class="sum-insight-text"><strong>May 2025</strong> was the strongest month at RM 243,000 — all three regions contributed to the record. Understand what drove this.</div>
+        <div class="sum-insight-text"><strong>July 2025</strong> at RM 555,810 — all three reps hit personal records simultaneously. Identifying the July catalyst is the highest-leverage insight available.</div>
       </div>
       <div class="sum-insight">
-        <div class="sum-insight-label">April Dip</div>
-        <div class="sum-insight-text">April dropped 16.1% from March's high. Penang fell hardest (RM 65K → 44K). Worth investigating whether this is seasonal or a one-off.</div>
+        <div class="sum-insight-label">Revenue Volatility</div>
+        <div class="sum-insight-text">H2 shows big swings — Aug dropped 34.7% after July; Oct dropped 34.1% after September. Peak months are high but troughs are deep. Pipeline consistency is the key challenge.</div>
       </div>
       <div class="sum-insight">
         <div class="sum-insight-label">Run Rate</div>
-        <div class="sum-insight-text">At May's pace, the full-year run rate is <strong>RM 2.9M</strong>. If Q1 growth continues, the team is on track to exceed RM 3M by year-end.</div>
+        <div class="sum-insight-text">10-month total is RM 3.03M. At the 10-month average pace of RM 303K/month, the annualised run rate is <strong>RM 3.63M</strong>. Year-end target of RM 3.6M is achievable.</div>
       </div>
     </div>
   </div>
@@ -1062,78 +1068,75 @@ footer{
     </div>
 
     <div class="sum-region-grid">
-      <!-- KL -->
       <div class="sum-region-card">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--magenta);"></div>
         <div class="sum-region-rank">Rank #1</div>
         <div class="sum-region-name">Kuala Lumpur</div>
-        <div class="sum-region-rev" style="color:var(--magenta);">RM 416,000</div>
+        <div class="sum-region-rev" style="color:var(--magenta);">RM 1,146,826</div>
         <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:100%;background:var(--magenta);"></div></div>
-        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">42.8% of total revenue</div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">37.9% of total revenue</div>
         <div class="sum-region-stats">
           <div class="sum-region-stat">
-            <div class="sum-region-stat-val">108</div>
+            <div class="sum-region-stat-val">352</div>
             <div class="sum-region-stat-lbl">Units</div>
           </div>
           <div class="sum-region-stat">
-            <div class="sum-region-stat-val">RM 3,852</div>
+            <div class="sum-region-stat-val">RM 3,258</div>
             <div class="sum-region-stat-lbl">Avg / unit</div>
           </div>
         </div>
         <div class="sum-region-breakdown">
-          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 237,000</span></div>
-          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 70,000</span></div>
-          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 109,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 602,563</span></div>
+          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 374,416</span></div>
+          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 169,847</span></div>
         </div>
       </div>
 
-      <!-- Penang -->
       <div class="sum-region-card">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--teal);"></div>
         <div class="sum-region-rank">Rank #2</div>
         <div class="sum-region-name">Penang</div>
-        <div class="sum-region-rev" style="color:var(--teal);">RM 299,000</div>
-        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:71.9%;background:var(--teal);"></div></div>
-        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">30.8% of total revenue</div>
+        <div class="sum-region-rev" style="color:var(--teal);">RM 1,018,549</div>
+        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:88.8%;background:var(--teal);"></div></div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">33.6% of total revenue</div>
         <div class="sum-region-stats">
           <div class="sum-region-stat">
-            <div class="sum-region-stat-val">77</div>
+            <div class="sum-region-stat-val">265</div>
             <div class="sum-region-stat-lbl">Units</div>
           </div>
           <div class="sum-region-stat">
-            <div class="sum-region-stat-val">RM 3,883</div>
+            <div class="sum-region-stat-val">RM 3,844</div>
             <div class="sum-region-stat-lbl">Avg / unit</div>
           </div>
         </div>
         <div class="sum-region-breakdown">
-          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 153,000</span></div>
-          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 91,000</span></div>
-          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 55,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 582,950</span></div>
+          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 149,463</span></div>
+          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 286,136</span></div>
         </div>
       </div>
 
-      <!-- JB -->
       <div class="sum-region-card">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--purple);"></div>
         <div class="sum-region-rank">Rank #3</div>
         <div class="sum-region-name">Johor Bahru</div>
-        <div class="sum-region-rev" style="color:var(--purple);">RM 257,000</div>
-        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:61.8%;background:var(--purple);"></div></div>
-        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">26.4% of total revenue</div>
+        <div class="sum-region-rev" style="color:var(--purple);">RM 861,851</div>
+        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:75.1%;background:var(--purple);"></div></div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">28.5% of total revenue</div>
         <div class="sum-region-stats">
           <div class="sum-region-stat">
-            <div class="sum-region-stat-val">63</div>
+            <div class="sum-region-stat-val">257</div>
             <div class="sum-region-stat-lbl">Units</div>
           </div>
           <div class="sum-region-stat">
-            <div class="sum-region-stat-val">RM 4,079</div>
+            <div class="sum-region-stat-val">RM 3,354</div>
             <div class="sum-region-stat-lbl">Avg / unit</div>
           </div>
         </div>
         <div class="sum-region-breakdown">
-          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 114,000</span></div>
-          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 77,000</span></div>
-          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 66,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 395,156</span></div>
+          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 302,113</span></div>
+          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 164,582</span></div>
         </div>
       </div>
     </div>
@@ -1166,10 +1169,10 @@ footer{
           <div class="sum-rep-info-region">Kuala Lumpur</div>
           <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:100%;background:var(--magenta);"></div></div>
         </div>
-        <div class="sum-rep-cell">RM 416,000<div class="sum-rep-cell-sub">Best month: May (109K)</div></div>
-        <div class="sum-rep-cell">108<div class="sum-rep-cell-sub">units</div></div>
-        <div class="sum-rep-cell">RM 3,852<div class="sum-rep-cell-sub">per unit</div></div>
-        <div class="sum-rep-cell" style="color:var(--magenta);">42.8%</div>
+        <div class="sum-rep-cell">RM 1,146,826<div class="sum-rep-cell-sub">Best month: Sep (184K)</div></div>
+        <div class="sum-rep-cell">352<div class="sum-rep-cell-sub">units</div></div>
+        <div class="sum-rep-cell">RM 3,258<div class="sum-rep-cell-sub">per unit</div></div>
+        <div class="sum-rep-cell" style="color:var(--magenta);">37.9%</div>
       </div>
 
       <div class="sum-rep-row">
@@ -1177,12 +1180,12 @@ footer{
         <div>
           <div class="sum-rep-info-name">Siti Naziha</div>
           <div class="sum-rep-info-region">Penang</div>
-          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:71.9%;background:var(--teal);"></div></div>
+          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:88.8%;background:var(--teal);"></div></div>
         </div>
-        <div class="sum-rep-cell">RM 299,000<div class="sum-rep-cell-sub">Best month: May (79K)</div></div>
-        <div class="sum-rep-cell">77<div class="sum-rep-cell-sub">units</div></div>
-        <div class="sum-rep-cell">RM 3,883<div class="sum-rep-cell-sub">per unit</div></div>
-        <div class="sum-rep-cell" style="color:var(--teal);">30.8%</div>
+        <div class="sum-rep-cell">RM 1,018,549<div class="sum-rep-cell-sub">Best month: Jul (190K)</div></div>
+        <div class="sum-rep-cell">265<div class="sum-rep-cell-sub">units</div></div>
+        <div class="sum-rep-cell">RM 3,844<div class="sum-rep-cell-sub">per unit</div></div>
+        <div class="sum-rep-cell" style="color:var(--teal);">33.6%</div>
       </div>
 
       <div class="sum-rep-row">
@@ -1190,12 +1193,12 @@ footer{
         <div>
           <div class="sum-rep-info-name">Kevin Tan</div>
           <div class="sum-rep-info-region">Johor Bahru</div>
-          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:61.8%;background:var(--purple);"></div></div>
+          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:75.1%;background:var(--purple);"></div></div>
         </div>
-        <div class="sum-rep-cell">RM 257,000<div class="sum-rep-cell-sub">Best month: May (55K)</div></div>
-        <div class="sum-rep-cell">63<div class="sum-rep-cell-sub">units</div></div>
-        <div class="sum-rep-cell">RM 4,079<div class="sum-rep-cell-sub">per unit</div></div>
-        <div class="sum-rep-cell" style="color:var(--purple);">26.4%</div>
+        <div class="sum-rep-cell">RM 861,851<div class="sum-rep-cell-sub">Best month: Sep (192K)</div></div>
+        <div class="sum-rep-cell">257<div class="sum-rep-cell-sub">units</div></div>
+        <div class="sum-rep-cell">RM 3,354<div class="sum-rep-cell-sub">per unit</div></div>
+        <div class="sum-rep-cell" style="color:var(--purple);">28.5%</div>
       </div>
     </div>
 
@@ -1215,8 +1218,13 @@ footer{
           <tr><td>Feb 2025</td><td>73,000</td><td>63,000</td><td>38,000</td><td>174,000</td></tr>
           <tr><td>Mar 2025</td><td>89,000</td><td>65,000</td><td>63,000</td><td>217,000</td></tr>
           <tr><td>Apr 2025</td><td>84,000</td><td>44,000</td><td>54,000</td><td>182,000</td></tr>
-          <tr><td>May 2025</td><td class="best-cell">109,000</td><td class="best-cell">79,000</td><td>55,000</td><td class="best-cell">243,000</td></tr>
-          <tr><td><strong>Total</strong></td><td><strong>416,000</strong></td><td><strong>299,000</strong></td><td><strong>257,000</strong></td><td><strong>972,000</strong></td></tr>
+          <tr><td>May 2025</td><td>109,000</td><td>79,000</td><td>55,000</td><td>243,000</td></tr>
+          <tr><td>Jun 2025</td><td>95,988</td><td>124,627</td><td>84,331</td><td>304,946</td></tr>
+          <tr><td>Jul 2025</td><td class="best-cell">181,251</td><td class="best-cell">189,960</td><td class="best-cell">184,599</td><td class="best-cell">555,810</td></tr>
+          <tr><td>Aug 2025</td><td>169,152</td><td>141,988</td><td>52,076</td><td>363,216</td></tr>
+          <tr><td>Sep 2025</td><td>184,001</td><td>125,085</td><td class="best-cell">191,900</td><td>500,986</td></tr>
+          <tr><td>Oct 2025</td><td>100,434</td><td>137,889</td><td>91,945</td><td>330,268</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>1,146,826</strong></td><td><strong>1,018,549</strong></td><td><strong>861,851</strong></td><td><strong>3,027,226</strong></td></tr>
         </tbody>
       </table>
     </div>
@@ -1233,12 +1241,11 @@ footer{
     </div>
 
     <div class="sum-product-grid">
-      <!-- Digital Marketing -->
       <div class="sum-product-card">
         <div class="sum-product-icon">📣</div>
         <div class="sum-product-name">Digital Marketing Package</div>
-        <div class="sum-product-rev" style="color:var(--magenta);">RM 504,000</div>
-        <div class="sum-product-share">51.9% of total revenue · Top product</div>
+        <div class="sum-product-rev" style="color:var(--magenta);">RM 1,580,669</div>
+        <div class="sum-product-share">52.2% of total revenue · Top product</div>
         <div class="sum-product-bar"><div class="sum-product-fill" style="width:100%;background:var(--magenta);"></div></div>
         <div class="sum-product-monthly">
           <div class="sum-product-monthly-title">Monthly breakdown</div>
@@ -1246,55 +1253,67 @@ footer{
           <div class="sum-product-monthly-row"><span>Feb</span><span>RM 102,000</span></div>
           <div class="sum-product-monthly-row"><span>Mar</span><span>RM 102,000</span></div>
           <div class="sum-product-monthly-row"><span>Apr</span><span>RM 99,000</span></div>
-          <div class="sum-product-monthly-row"><span>May</span><span style="color:var(--teal);font-weight:800;">RM 126,000</span></div>
+          <div class="sum-product-monthly-row"><span>May</span><span>RM 126,000</span></div>
+          <div class="sum-product-monthly-row"><span>Jun</span><span>RM 175,335</span></div>
+          <div class="sum-product-monthly-row"><span>Jul</span><span style="color:var(--teal);font-weight:800;">RM 275,662</span></div>
+          <div class="sum-product-monthly-row"><span>Aug</span><span>RM 204,935</span></div>
+          <div class="sum-product-monthly-row"><span>Sep</span><span>RM 274,297</span></div>
+          <div class="sum-product-monthly-row"><span>Oct</span><span>RM 146,440</span></div>
         </div>
       </div>
 
-      <!-- Web Development -->
       <div class="sum-product-card">
         <div class="sum-product-icon">💻</div>
         <div class="sum-product-name">Web Development</div>
-        <div class="sum-product-rev" style="color:var(--teal);">RM 238,000</div>
-        <div class="sum-product-share">24.5% of total revenue</div>
-        <div class="sum-product-bar"><div class="sum-product-fill" style="width:47.2%;background:var(--teal);"></div></div>
+        <div class="sum-product-rev" style="color:var(--teal);">RM 825,992</div>
+        <div class="sum-product-share">27.3% of total revenue</div>
+        <div class="sum-product-bar"><div class="sum-product-fill" style="width:52.3%;background:var(--teal);"></div></div>
         <div class="sum-product-monthly">
           <div class="sum-product-monthly-title">Monthly breakdown</div>
           <div class="sum-product-monthly-row"><span>Jan</span><span>RM 21,000</span></div>
           <div class="sum-product-monthly-row"><span>Feb</span><span>RM 42,000</span></div>
           <div class="sum-product-monthly-row"><span>Mar</span><span>RM 35,000</span></div>
           <div class="sum-product-monthly-row"><span>Apr</span><span>RM 63,000</span></div>
-          <div class="sum-product-monthly-row"><span>May</span><span style="color:var(--teal);font-weight:800;">RM 77,000</span></div>
+          <div class="sum-product-monthly-row"><span>May</span><span>RM 77,000</span></div>
+          <div class="sum-product-monthly-row"><span>Jun</span><span>RM 45,525</span></div>
+          <div class="sum-product-monthly-row"><span>Jul</span><span style="color:var(--teal);font-weight:800;">RM 193,081</span></div>
+          <div class="sum-product-monthly-row"><span>Aug</span><span>RM 47,938</span></div>
+          <div class="sum-product-monthly-row"><span>Sep</span><span style="color:var(--teal);font-weight:800;">RM 194,116</span></div>
+          <div class="sum-product-monthly-row"><span>Oct</span><span>RM 107,332</span></div>
         </div>
       </div>
 
-      <!-- Branding -->
       <div class="sum-product-card">
         <div class="sum-product-icon">🎨</div>
         <div class="sum-product-name">Branding Package</div>
-        <div class="sum-product-rev" style="color:var(--purple);">RM 230,000</div>
-        <div class="sum-product-share">23.7% of total revenue</div>
-        <div class="sum-product-bar"><div class="sum-product-fill" style="width:45.6%;background:var(--purple);"></div></div>
+        <div class="sum-product-rev" style="color:var(--purple);">RM 620,565</div>
+        <div class="sum-product-share">20.5% of total revenue</div>
+        <div class="sum-product-bar"><div class="sum-product-fill" style="width:39.3%;background:var(--purple);"></div></div>
         <div class="sum-product-monthly">
           <div class="sum-product-monthly-title">Monthly breakdown</div>
           <div class="sum-product-monthly-row"><span>Jan</span><span>RM 60,000</span></div>
           <div class="sum-product-monthly-row"><span>Feb</span><span>RM 30,000</span></div>
           <div class="sum-product-monthly-row"><span>Mar</span><span>RM 80,000</span></div>
           <div class="sum-product-monthly-row"><span>Apr</span><span>RM 20,000</span></div>
-          <div class="sum-product-monthly-row"><span>May</span><span style="color:var(--teal);font-weight:800;">RM 40,000</span></div>
+          <div class="sum-product-monthly-row"><span>May</span><span>RM 40,000</span></div>
+          <div class="sum-product-monthly-row"><span>Jun</span><span>RM 84,086</span></div>
+          <div class="sum-product-monthly-row"><span>Jul</span><span>RM 87,067</span></div>
+          <div class="sum-product-monthly-row"><span>Aug</span><span style="color:var(--teal);font-weight:800;">RM 110,343</span></div>
+          <div class="sum-product-monthly-row"><span>Sep</span><span>RM 32,573</span></div>
+          <div class="sum-product-monthly-row"><span>Oct</span><span>RM 76,496</span></div>
         </div>
       </div>
     </div>
 
     <div style="padding:18px 20px;background:rgba(183,30,108,.05);border-radius:12px;border-left:3px solid var(--magenta);">
       <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);margin-bottom:6px;">Key Observation</div>
-      <div style="font-size:13px;color:var(--carbon);line-height:1.6;">Digital Marketing dominates at 51.9%, but <strong>Web Development is accelerating</strong> — growing from RM 21K in January to RM 77K in May (+267%). Branding Package is volatile, peaking in March (RM 80K) then dropping sharply in April (RM 20K). Consider whether Branding needs a more consistent pipeline strategy.</div>
+      <div style="font-size:13px;color:var(--carbon);line-height:1.6;">Digital Marketing remains the dominant product at 52.2%, but <strong>Web Development is accelerating fast</strong> — from RM 21K in January to RM 194K in September (+824%). It nearly matched Digital Marketing in July (RM 193K vs RM 276K) and September (RM 194K vs RM 274K). Branding Package peaked at RM 110K in August but remains the most volatile. The three products are diverging: Web Dev is growing, Digital Mktg is strong but volatile, and Branding needs a more consistent pipeline strategy.</div>
     </div>
   </div>
 
-  <!-- REPORT FOOTER -->
   <div class="sum-footer">
     <div class="sum-footer-left">AI for Non-Technical Executives · Skribble Training · Generated with Claude Code</div>
-    <div class="sum-footer-right">Sales data: Jan–May 2025 · Confidential</div>
+    <div class="sum-footer-right">Sales data: Jan–Oct 2025 · Confidential</div>
   </div>
 
 </div>
@@ -1306,36 +1325,34 @@ const TEAL    = '#00BBBE';
 const PURPLE  = '#BDA1D5';
 const OLIVE   = '#BBBD54';
 const CARBON  = '#242424';
-const CREAM   = '#F7F3F0';
 
 Chart.defaults.font.family = "'Montserrat', sans-serif";
 Chart.defaults.font.size   = 12;
 
-// ── Monthly Revenue Line/Bar ──
 new Chart(document.getElementById('monthlyChart'), {
   type: 'bar',
   data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'],
     datasets: [
       {
         label: 'Kuala Lumpur',
-        data: [61000, 73000, 89000, 84000, 109000],
+        data: [61000,73000,89000,84000,109000,95988,181251,169152,184001,100434],
         backgroundColor: MAGENTA,
-        borderRadius: 6,
+        borderRadius: 4,
         borderSkipped: false,
       },
       {
         label: 'Penang',
-        data: [48000, 63000, 65000, 44000, 79000],
+        data: [48000,63000,65000,44000,79000,124627,189960,141988,125085,137889],
         backgroundColor: TEAL,
-        borderRadius: 6,
+        borderRadius: 4,
         borderSkipped: false,
       },
       {
         label: 'Johor Bahru',
-        data: [47000, 38000, 63000, 54000, 55000],
+        data: [47000,38000,63000,54000,55000,84331,184599,52076,191900,91945],
         backgroundColor: PURPLE,
-        borderRadius: 6,
+        borderRadius: 4,
         borderSkipped: false,
       }
     ]
@@ -1356,21 +1373,18 @@ new Chart(document.getElementById('monthlyChart'), {
       y: {
         stacked: true,
         grid: { color: 'rgba(0,0,0,.05)' },
-        ticks: {
-          callback: v => 'RM ' + (v/1000) + 'K'
-        }
+        ticks: { callback: v => 'RM ' + (v/1000) + 'K' }
       }
     }
   }
 });
 
-// ── Region Donut ──
 new Chart(document.getElementById('regionChart'), {
   type: 'doughnut',
   data: {
     labels: ['Kuala Lumpur', 'Penang', 'Johor Bahru'],
     datasets: [{
-      data: [416000, 299000, 257000],
+      data: [1146826, 1018549, 861851],
       backgroundColor: [MAGENTA, TEAL, PURPLE],
       borderWidth: 0,
       hoverOffset: 6
@@ -1384,21 +1398,20 @@ new Chart(document.getElementById('regionChart'), {
       legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } },
       tooltip: {
         callbacks: {
-          label: ctx => ' RM ' + ctx.raw.toLocaleString() + ' (' + ((ctx.raw/972000)*100).toFixed(1) + '%)'
+          label: ctx => ' RM ' + ctx.raw.toLocaleString() + ' (' + ((ctx.raw/3027226)*100).toFixed(1) + '%)'
         }
       }
     }
   }
 });
 
-// ── Product Bar ──
 new Chart(document.getElementById('productChart'), {
   type: 'bar',
   data: {
     labels: ['Digital\nMarketing', 'Web\nDevelopment', 'Branding\nPackage'],
     datasets: [{
       label: 'Revenue (MYR)',
-      data: [504000, 238000, 230000],
+      data: [1580669, 825992, 620565],
       backgroundColor: [MAGENTA, TEAL, OLIVE],
       borderRadius: 8,
       borderSkipped: false,
@@ -1426,7 +1439,6 @@ new Chart(document.getElementById('productChart'), {
   }
 });
 
-// Page switcher
 function switchPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
