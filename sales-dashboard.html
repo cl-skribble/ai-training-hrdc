@@ -335,6 +335,10 @@ footer{
     visual-asset-generator skill
     <span class="tab-badge tab-badge-mag">Infographic Poster</span>
   </div>
+  <div class="page-tab" onclick="switchPage('summary')">
+    Executive Summary
+    <span class="tab-badge" style="background:rgba(187,189,84,.2);color:var(--olive);">Report View</span>
+  </div>
 </div>
 
 <!-- PAGE 1: DATA-ANALYST DASHBOARD -->
@@ -777,6 +781,524 @@ footer{
 </section>
 </div>
 </div><!-- /page-infographic -->
+
+<!-- PAGE 3: EXECUTIVE SUMMARY -->
+<div id="page-summary" class="page">
+<style>
+/* ── SUMMARY PAGE STYLES ── */
+#page-summary{background:#f8f6f3;min-height:100vh;padding:48px 40px;}
+.sum-inner{max-width:1000px;margin:0 auto;}
+
+/* report header */
+.sum-report-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding-bottom:24px;border-bottom:2px solid var(--carbon);margin-bottom:40px;
+}
+.sum-report-title{font-size:28px;font-weight:900;color:var(--carbon);letter-spacing:-.02em;}
+.sum-report-sub{font-size:13px;color:#888;margin-top:4px;font-weight:500;}
+.sum-report-meta{text-align:right;}
+.sum-report-period{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);}
+.sum-report-date{font-size:11px;color:#aaa;margin-top:4px;}
+
+/* section */
+.sum-section{margin-bottom:48px;}
+.sum-section-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:24px;padding-bottom:14px;
+  border-bottom:1px solid rgba(0,0,0,.1);
+}
+.sum-section-num{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  font-size:13px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.sum-section-title{font-size:18px;font-weight:800;color:var(--carbon);}
+.sum-section-desc{font-size:12px;color:#999;margin-top:2px;}
+
+/* overall: big kpi strip */
+.sum-kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.sum-kpi{
+  background:#fff;border-radius:14px;padding:20px 22px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
+}
+.sum-kpi-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
+.sum-kpi-val{font-size:24px;font-weight:900;color:var(--carbon);line-height:1;}
+.sum-kpi-sub{font-size:11px;color:#aaa;margin-top:5px;}
+
+/* trend table inline */
+.sum-trend{
+  background:#fff;border-radius:14px;padding:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
+  margin-bottom:24px;
+}
+.sum-trend-title{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#bbb;margin-bottom:16px;}
+.sum-trend-row{
+  display:grid;grid-template-columns:80px 1fr 80px 70px;
+  align-items:center;gap:12px;
+  padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05);
+}
+.sum-trend-row:last-child{border-bottom:none;}
+.sum-trend-month{font-size:12px;font-weight:700;color:var(--carbon);}
+.sum-trend-bar-bg{height:10px;background:rgba(0,0,0,.05);border-radius:5px;overflow:hidden;}
+.sum-trend-bar{height:100%;border-radius:5px;}
+.sum-trend-val{font-size:13px;font-weight:800;color:var(--carbon);text-align:right;}
+.sum-trend-change{font-size:10px;font-weight:700;text-align:right;}
+
+/* insight callouts */
+.sum-insights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0;}
+.sum-insight{
+  padding:16px 18px;border-radius:12px;
+  background:rgba(0,187,190,.06);border-left:3px solid var(--teal);
+}
+.sum-insight-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
+.sum-insight-text{font-size:13px;color:var(--carbon);line-height:1.55;}
+.sum-insight-text strong{color:var(--magenta);}
+
+/* region section */
+.sum-region-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.sum-region-card{
+  background:#fff;border-radius:14px;padding:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
+  position:relative;overflow:hidden;
+}
+.sum-region-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+}
+.sum-region-rank{
+  font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#ccc;margin-bottom:10px;
+}
+.sum-region-name{font-size:18px;font-weight:900;color:var(--carbon);margin-bottom:4px;}
+.sum-region-rev{font-size:28px;font-weight:900;line-height:1;margin-bottom:10px;}
+.sum-region-share-bar{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;margin-bottom:10px;}
+.sum-region-share-fill{height:100%;border-radius:3px;}
+.sum-region-stats{display:flex;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.07);}
+.sum-region-stat{flex:1;}
+.sum-region-stat-val{font-size:15px;font-weight:800;color:var(--carbon);}
+.sum-region-stat-lbl{font-size:9px;color:#bbb;letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sum-region-breakdown{margin-top:12px;}
+.sum-region-breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px;color:#777;}
+.sum-region-breakdown-row span:last-child{font-weight:700;color:var(--carbon);}
+
+/* rep section */
+.sum-rep-table{
+  background:#fff;border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
+}
+.sum-rep-table-head{
+  display:grid;grid-template-columns:40px 1fr 110px 110px 110px 90px;
+  gap:0;background:var(--carbon);padding:10px 20px;
+  font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);
+}
+.sum-rep-row{
+  display:grid;grid-template-columns:40px 1fr 110px 110px 110px 90px;
+  gap:0;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,.05);
+  align-items:center;
+}
+.sum-rep-row:last-child{border-bottom:none;}
+.sum-rep-row:hover{background:rgba(183,30,108,.02);}
+.sum-rep-medal{font-size:18px;}
+.sum-rep-info-name{font-size:14px;font-weight:800;color:var(--carbon);}
+.sum-rep-info-region{font-size:11px;color:#aaa;margin-top:1px;}
+.sum-rep-cell{font-size:14px;font-weight:700;color:var(--carbon);}
+.sum-rep-cell-sub{font-size:10px;color:#aaa;margin-top:2px;}
+.sum-rep-bar-cell{padding-right:8px;}
+.sum-rep-pct-bar{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;margin-top:4px;}
+.sum-rep-pct-fill{height:100%;border-radius:3px;}
+
+/* monthly by rep matrix */
+.sum-matrix{
+  background:#fff;border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
+  margin-top:16px;
+}
+.sum-matrix table{width:100%;border-collapse:collapse;font-size:12px;}
+.sum-matrix th{
+  background:rgba(0,0,0,.04);color:#777;padding:9px 14px;
+  text-align:left;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+.sum-matrix th:not(:first-child){text-align:right;}
+.sum-matrix td{padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.04);color:#555;}
+.sum-matrix td:not(:first-child){text-align:right;font-weight:600;color:var(--carbon);}
+.sum-matrix tr:last-child td{border-bottom:none;background:rgba(0,187,190,.05);font-weight:800;color:var(--carbon);}
+.sum-matrix .best-cell{color:var(--teal) !important;}
+
+/* product section */
+.sum-product-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.sum-product-card{
+  background:#fff;border-radius:14px;padding:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.07);
+}
+.sum-product-icon{font-size:32px;margin-bottom:12px;}
+.sum-product-name{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
+.sum-product-rev{font-size:28px;font-weight:900;color:var(--carbon);line-height:1;margin-bottom:8px;}
+.sum-product-share{font-size:12px;color:#aaa;margin-bottom:12px;}
+.sum-product-bar{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;margin-bottom:14px;}
+.sum-product-fill{height:100%;border-radius:3px;}
+.sum-product-monthly{border-top:1px solid rgba(0,0,0,.06);padding-top:12px;}
+.sum-product-monthly-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:8px;}
+.sum-product-monthly-row{display:flex;justify-content:space-between;font-size:11px;color:#888;padding:2px 0;}
+.sum-product-monthly-row span:last-child{font-weight:700;color:var(--carbon);}
+
+/* report footer */
+.sum-footer{
+  border-top:1px solid rgba(0,0,0,.1);padding-top:20px;margin-top:8px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.sum-footer-left{font-size:11px;color:#bbb;}
+.sum-footer-right{font-size:11px;color:#ccc;}
+</style>
+
+<div id="page-summary-inner" style="background:#f8f6f3;min-height:100vh;padding:48px 40px;">
+<div class="sum-inner">
+
+  <!-- REPORT HEADER -->
+  <div class="sum-report-header">
+    <div>
+      <div class="sum-report-title">Sales Performance Report</div>
+      <div class="sum-report-sub">Skribble · Kuala Lumpur · Penang · Johor Bahru</div>
+    </div>
+    <div class="sum-report-meta">
+      <div class="sum-report-period">Jan – May 2025</div>
+      <div class="sum-report-date">3 reps · 3 regions · 3 products</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: OVERALL REVENUE + INSIGHTS ── -->
+  <div class="sum-section">
+    <div class="sum-section-header">
+      <div class="sum-section-num" style="background:var(--magenta);color:#fff;">1</div>
+      <div>
+        <div class="sum-section-title">Overall Revenue &amp; Insights</div>
+        <div class="sum-section-desc">Company-wide performance summary, Jan–May 2025</div>
+      </div>
+    </div>
+
+    <div class="sum-kpi-strip">
+      <div class="sum-kpi">
+        <div class="sum-kpi-label">Total Revenue</div>
+        <div class="sum-kpi-val" style="color:var(--magenta);">RM 972,000</div>
+        <div class="sum-kpi-sub">Jan–May 2025 · 5 months</div>
+      </div>
+      <div class="sum-kpi">
+        <div class="sum-kpi-label">Total Units Sold</div>
+        <div class="sum-kpi-val">248</div>
+        <div class="sum-kpi-sub">Across all products</div>
+      </div>
+      <div class="sum-kpi">
+        <div class="sum-kpi-label">Monthly Average</div>
+        <div class="sum-kpi-val">RM 194,400</div>
+        <div class="sum-kpi-sub">Per month</div>
+      </div>
+      <div class="sum-kpi">
+        <div class="sum-kpi-label">Revenue Growth</div>
+        <div class="sum-kpi-val" style="color:var(--teal);">+55.8%</div>
+        <div class="sum-kpi-sub">Jan → May (156K → 243K)</div>
+      </div>
+    </div>
+
+    <div class="sum-trend">
+      <div class="sum-trend-title">Monthly Revenue Trend</div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">January</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:64.2%;background:var(--magenta);opacity:.5;"></div></div>
+        <div class="sum-trend-val">RM 156,000</div>
+        <div class="sum-trend-change" style="color:#aaa;">—</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">February</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:71.6%;background:var(--magenta);opacity:.6;"></div></div>
+        <div class="sum-trend-val">RM 174,000</div>
+        <div class="sum-trend-change" style="color:var(--teal);">↑ +11.5%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">March</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:89.3%;background:var(--magenta);opacity:.8;"></div></div>
+        <div class="sum-trend-val">RM 217,000</div>
+        <div class="sum-trend-change" style="color:var(--teal);">↑ +24.7%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">April</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:74.9%;background:var(--magenta);opacity:.7;"></div></div>
+        <div class="sum-trend-val">RM 182,000</div>
+        <div class="sum-trend-change" style="color:#e05;">↓ −16.1%</div>
+      </div>
+      <div class="sum-trend-row">
+        <div class="sum-trend-month">May</div>
+        <div class="sum-trend-bar-bg"><div class="sum-trend-bar" style="width:100%;background:var(--teal);"></div></div>
+        <div class="sum-trend-val" style="color:var(--teal);font-size:14px;">RM 243,000</div>
+        <div class="sum-trend-change" style="color:var(--teal);">↑ +33.5%</div>
+      </div>
+    </div>
+
+    <div class="sum-insights">
+      <div class="sum-insight">
+        <div class="sum-insight-label">Growth Trend</div>
+        <div class="sum-insight-text">Revenue grew <strong>55.8%</strong> from Jan to May. The only dip was April (−16%), but May fully reversed it and hit a new high.</div>
+      </div>
+      <div class="sum-insight">
+        <div class="sum-insight-label">Best Month</div>
+        <div class="sum-insight-text"><strong>May 2025</strong> was the strongest month at RM 243,000 — all three regions contributed to the record. Understand what drove this.</div>
+      </div>
+      <div class="sum-insight">
+        <div class="sum-insight-label">April Dip</div>
+        <div class="sum-insight-text">April dropped 16.1% from March's high. Penang fell hardest (RM 65K → 44K). Worth investigating whether this is seasonal or a one-off.</div>
+      </div>
+      <div class="sum-insight">
+        <div class="sum-insight-label">Run Rate</div>
+        <div class="sum-insight-text">At May's pace, the full-year run rate is <strong>RM 2.9M</strong>. If Q1 growth continues, the team is on track to exceed RM 3M by year-end.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: PERFORMANCE BY REGION ── -->
+  <div class="sum-section">
+    <div class="sum-section-header">
+      <div class="sum-section-num" style="background:var(--teal);color:#fff;">2</div>
+      <div>
+        <div class="sum-section-title">Performance by Region</div>
+        <div class="sum-section-desc">Revenue breakdown across Kuala Lumpur, Penang, and Johor Bahru</div>
+      </div>
+    </div>
+
+    <div class="sum-region-grid">
+      <!-- KL -->
+      <div class="sum-region-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--magenta);"></div>
+        <div class="sum-region-rank">Rank #1</div>
+        <div class="sum-region-name">Kuala Lumpur</div>
+        <div class="sum-region-rev" style="color:var(--magenta);">RM 416,000</div>
+        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:100%;background:var(--magenta);"></div></div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">42.8% of total revenue</div>
+        <div class="sum-region-stats">
+          <div class="sum-region-stat">
+            <div class="sum-region-stat-val">108</div>
+            <div class="sum-region-stat-lbl">Units</div>
+          </div>
+          <div class="sum-region-stat">
+            <div class="sum-region-stat-val">RM 3,852</div>
+            <div class="sum-region-stat-lbl">Avg / unit</div>
+          </div>
+        </div>
+        <div class="sum-region-breakdown">
+          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 237,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 70,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 109,000</span></div>
+        </div>
+      </div>
+
+      <!-- Penang -->
+      <div class="sum-region-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--teal);"></div>
+        <div class="sum-region-rank">Rank #2</div>
+        <div class="sum-region-name">Penang</div>
+        <div class="sum-region-rev" style="color:var(--teal);">RM 299,000</div>
+        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:71.9%;background:var(--teal);"></div></div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">30.8% of total revenue</div>
+        <div class="sum-region-stats">
+          <div class="sum-region-stat">
+            <div class="sum-region-stat-val">77</div>
+            <div class="sum-region-stat-lbl">Units</div>
+          </div>
+          <div class="sum-region-stat">
+            <div class="sum-region-stat-val">RM 3,883</div>
+            <div class="sum-region-stat-lbl">Avg / unit</div>
+          </div>
+        </div>
+        <div class="sum-region-breakdown">
+          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 153,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 91,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 55,000</span></div>
+        </div>
+      </div>
+
+      <!-- JB -->
+      <div class="sum-region-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--purple);"></div>
+        <div class="sum-region-rank">Rank #3</div>
+        <div class="sum-region-name">Johor Bahru</div>
+        <div class="sum-region-rev" style="color:var(--purple);">RM 257,000</div>
+        <div class="sum-region-share-bar"><div class="sum-region-share-fill" style="width:61.8%;background:var(--purple);"></div></div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:12px;">26.4% of total revenue</div>
+        <div class="sum-region-stats">
+          <div class="sum-region-stat">
+            <div class="sum-region-stat-val">63</div>
+            <div class="sum-region-stat-lbl">Units</div>
+          </div>
+          <div class="sum-region-stat">
+            <div class="sum-region-stat-val">RM 4,079</div>
+            <div class="sum-region-stat-lbl">Avg / unit</div>
+          </div>
+        </div>
+        <div class="sum-region-breakdown">
+          <div class="sum-region-breakdown-row"><span>Digital Mktg</span><span>RM 114,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Web Dev</span><span>RM 77,000</span></div>
+          <div class="sum-region-breakdown-row"><span>Branding</span><span>RM 66,000</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: PERFORMANCE BY SALES PEOPLE ── -->
+  <div class="sum-section">
+    <div class="sum-section-header">
+      <div class="sum-section-num" style="background:var(--purple);color:var(--carbon);">3</div>
+      <div>
+        <div class="sum-section-title">Performance by Sales Rep</div>
+        <div class="sum-section-desc">Individual contributions and monthly consistency</div>
+      </div>
+    </div>
+
+    <div class="sum-rep-table">
+      <div class="sum-rep-table-head">
+        <div></div>
+        <div>Rep / Region</div>
+        <div style="text-align:right;">Revenue</div>
+        <div style="text-align:right;">Units</div>
+        <div style="text-align:right;">Avg / Unit</div>
+        <div style="text-align:right;">Share</div>
+      </div>
+
+      <div class="sum-rep-row">
+        <div class="sum-rep-medal">🥇</div>
+        <div>
+          <div class="sum-rep-info-name">Ahmad Riza</div>
+          <div class="sum-rep-info-region">Kuala Lumpur</div>
+          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:100%;background:var(--magenta);"></div></div>
+        </div>
+        <div class="sum-rep-cell">RM 416,000<div class="sum-rep-cell-sub">Best month: May (109K)</div></div>
+        <div class="sum-rep-cell">108<div class="sum-rep-cell-sub">units</div></div>
+        <div class="sum-rep-cell">RM 3,852<div class="sum-rep-cell-sub">per unit</div></div>
+        <div class="sum-rep-cell" style="color:var(--magenta);">42.8%</div>
+      </div>
+
+      <div class="sum-rep-row">
+        <div class="sum-rep-medal">🥈</div>
+        <div>
+          <div class="sum-rep-info-name">Siti Naziha</div>
+          <div class="sum-rep-info-region">Penang</div>
+          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:71.9%;background:var(--teal);"></div></div>
+        </div>
+        <div class="sum-rep-cell">RM 299,000<div class="sum-rep-cell-sub">Best month: May (79K)</div></div>
+        <div class="sum-rep-cell">77<div class="sum-rep-cell-sub">units</div></div>
+        <div class="sum-rep-cell">RM 3,883<div class="sum-rep-cell-sub">per unit</div></div>
+        <div class="sum-rep-cell" style="color:var(--teal);">30.8%</div>
+      </div>
+
+      <div class="sum-rep-row">
+        <div class="sum-rep-medal">🥉</div>
+        <div>
+          <div class="sum-rep-info-name">Kevin Tan</div>
+          <div class="sum-rep-info-region">Johor Bahru</div>
+          <div class="sum-rep-pct-bar"><div class="sum-rep-pct-fill" style="width:61.8%;background:var(--purple);"></div></div>
+        </div>
+        <div class="sum-rep-cell">RM 257,000<div class="sum-rep-cell-sub">Best month: May (55K)</div></div>
+        <div class="sum-rep-cell">63<div class="sum-rep-cell-sub">units</div></div>
+        <div class="sum-rep-cell">RM 4,079<div class="sum-rep-cell-sub">per unit</div></div>
+        <div class="sum-rep-cell" style="color:var(--purple);">26.4%</div>
+      </div>
+    </div>
+
+    <div class="sum-matrix">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Ahmad Riza (KL)</th>
+            <th>Siti Naziha (Penang)</th>
+            <th>Kevin Tan (JB)</th>
+            <th>Monthly Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Jan 2025</td><td>61,000</td><td>48,000</td><td>47,000</td><td>156,000</td></tr>
+          <tr><td>Feb 2025</td><td>73,000</td><td>63,000</td><td>38,000</td><td>174,000</td></tr>
+          <tr><td>Mar 2025</td><td>89,000</td><td>65,000</td><td>63,000</td><td>217,000</td></tr>
+          <tr><td>Apr 2025</td><td>84,000</td><td>44,000</td><td>54,000</td><td>182,000</td></tr>
+          <tr><td>May 2025</td><td class="best-cell">109,000</td><td class="best-cell">79,000</td><td>55,000</td><td class="best-cell">243,000</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>416,000</strong></td><td><strong>299,000</strong></td><td><strong>257,000</strong></td><td><strong>972,000</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: PERFORMANCE BY PRODUCT ── -->
+  <div class="sum-section">
+    <div class="sum-section-header">
+      <div class="sum-section-num" style="background:var(--olive);color:var(--carbon);">4</div>
+      <div>
+        <div class="sum-section-title">Performance by Product</div>
+        <div class="sum-section-desc">Revenue contribution and monthly trend per product line</div>
+      </div>
+    </div>
+
+    <div class="sum-product-grid">
+      <!-- Digital Marketing -->
+      <div class="sum-product-card">
+        <div class="sum-product-icon">📣</div>
+        <div class="sum-product-name">Digital Marketing Package</div>
+        <div class="sum-product-rev" style="color:var(--magenta);">RM 504,000</div>
+        <div class="sum-product-share">51.9% of total revenue · Top product</div>
+        <div class="sum-product-bar"><div class="sum-product-fill" style="width:100%;background:var(--magenta);"></div></div>
+        <div class="sum-product-monthly">
+          <div class="sum-product-monthly-title">Monthly breakdown</div>
+          <div class="sum-product-monthly-row"><span>Jan</span><span>RM 75,000</span></div>
+          <div class="sum-product-monthly-row"><span>Feb</span><span>RM 102,000</span></div>
+          <div class="sum-product-monthly-row"><span>Mar</span><span>RM 102,000</span></div>
+          <div class="sum-product-monthly-row"><span>Apr</span><span>RM 99,000</span></div>
+          <div class="sum-product-monthly-row"><span>May</span><span style="color:var(--teal);font-weight:800;">RM 126,000</span></div>
+        </div>
+      </div>
+
+      <!-- Web Development -->
+      <div class="sum-product-card">
+        <div class="sum-product-icon">💻</div>
+        <div class="sum-product-name">Web Development</div>
+        <div class="sum-product-rev" style="color:var(--teal);">RM 238,000</div>
+        <div class="sum-product-share">24.5% of total revenue</div>
+        <div class="sum-product-bar"><div class="sum-product-fill" style="width:47.2%;background:var(--teal);"></div></div>
+        <div class="sum-product-monthly">
+          <div class="sum-product-monthly-title">Monthly breakdown</div>
+          <div class="sum-product-monthly-row"><span>Jan</span><span>RM 21,000</span></div>
+          <div class="sum-product-monthly-row"><span>Feb</span><span>RM 42,000</span></div>
+          <div class="sum-product-monthly-row"><span>Mar</span><span>RM 35,000</span></div>
+          <div class="sum-product-monthly-row"><span>Apr</span><span>RM 63,000</span></div>
+          <div class="sum-product-monthly-row"><span>May</span><span style="color:var(--teal);font-weight:800;">RM 77,000</span></div>
+        </div>
+      </div>
+
+      <!-- Branding -->
+      <div class="sum-product-card">
+        <div class="sum-product-icon">🎨</div>
+        <div class="sum-product-name">Branding Package</div>
+        <div class="sum-product-rev" style="color:var(--purple);">RM 230,000</div>
+        <div class="sum-product-share">23.7% of total revenue</div>
+        <div class="sum-product-bar"><div class="sum-product-fill" style="width:45.6%;background:var(--purple);"></div></div>
+        <div class="sum-product-monthly">
+          <div class="sum-product-monthly-title">Monthly breakdown</div>
+          <div class="sum-product-monthly-row"><span>Jan</span><span>RM 60,000</span></div>
+          <div class="sum-product-monthly-row"><span>Feb</span><span>RM 30,000</span></div>
+          <div class="sum-product-monthly-row"><span>Mar</span><span>RM 80,000</span></div>
+          <div class="sum-product-monthly-row"><span>Apr</span><span>RM 20,000</span></div>
+          <div class="sum-product-monthly-row"><span>May</span><span style="color:var(--teal);font-weight:800;">RM 40,000</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 20px;background:rgba(183,30,108,.05);border-radius:12px;border-left:3px solid var(--magenta);">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);margin-bottom:6px;">Key Observation</div>
+      <div style="font-size:13px;color:var(--carbon);line-height:1.6;">Digital Marketing dominates at 51.9%, but <strong>Web Development is accelerating</strong> — growing from RM 21K in January to RM 77K in May (+267%). Branding Package is volatile, peaking in March (RM 80K) then dropping sharply in April (RM 20K). Consider whether Branding needs a more consistent pipeline strategy.</div>
+    </div>
+  </div>
+
+  <!-- REPORT FOOTER -->
+  <div class="sum-footer">
+    <div class="sum-footer-left">AI for Non-Technical Executives · Skribble Training · Generated with Claude Code</div>
+    <div class="sum-footer-right">Sales data: Jan–May 2025 · Confidential</div>
+  </div>
+
+</div>
+</div><!-- /page-summary -->
 
 <script>
 const MAGENTA = '#B71E6C';
